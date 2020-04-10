@@ -14,9 +14,12 @@ import javafx.scene.control.Label;
 import DBAcess.ClubDBAccess;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import vistaPistes.FXMLVistaPistesController;
+
 /**
  *
  * @author 2jesu
@@ -30,18 +33,21 @@ public class FXMLPaddleController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-         FXMLLoader cargadorPista = new FXMLLoader(getClass().getResource("/vistaPistes/FXMLVistaPistes.fxml"));
-         
+      
+      
+         FXMLLoader miCargador = new FXMLLoader(getClass().getResource("/vistaPistes/FXMLVistaPistes.fxml"));
          try {
              
-             VBox vistaPistes = (VBox) cargadorPista.load();
-             FXMLVistaPistesController controlador = cargadorPista.<FXMLVistaPistesController>getController();
-             
-             borderPane.setCenter(vistaPistes);
+             //AnchorPane vistaPistes = (AnchorPane) FXMLLoader.load(getClass().getResource("/vistaPistes/FXMLVistaPistes.fxml"));
+             //hola
+            VBox root = (VBox) miCargador.load();
+            FXMLVistaPistesController controlador = miCargador.<FXMLVistaPistesController>getController();
+            controlador.init();
+             System.out.println("yeeee");
+             borderPane.setCenter(root);
              
          } catch(IOException e) {
-             
+             System.err.println(e.toString());
          }
     }    
     
