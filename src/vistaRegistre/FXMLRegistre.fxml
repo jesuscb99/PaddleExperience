@@ -40,7 +40,7 @@
       <TextField fx:id="texto_usuario" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
          <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="125.0" text="Agregar imagen" />
+            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="145.0" text="Agregar imagen" />
          </children>
       </HBox>
       <Text fx:id="mensaje_usuario" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de usuario" GridPane.rowIndex="4" />
@@ -52,12 +52,12 @@
       <Label text="Teléfono" GridPane.rowIndex="3" />
       <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <PasswordField minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField prefHeight="25.0" prefWidth="167.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+      <TextField prefHeight="25.0" prefWidth="193.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
          <GridPane.margin>
-            <Insets left="100.0" />
+            <Insets left="80.0" />
          </GridPane.margin></TextField>
       <Label text="Código de seguridad (SVC)" GridPane.rowIndex="7" />
-      <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#pulsadoIniciar" prefHeight="48.0" prefWidth="116.0" text="Iniciar" textAlignment="CENTER" textFill="#e41b08" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+      <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#pulsadoIniciar" prefHeight="57.0" prefWidth="118.0" text="Iniciar" textAlignment="CENTER" textFill="#e41b08" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="27.0" />
          </font>
