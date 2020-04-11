@@ -68,8 +68,8 @@ public class FXMLLoginController implements Initializable {
            }
            
         } else {
-            main.logged = true;
-            main.entrar();
+            
+            main.entrar(membreAct);
         }
     }
 

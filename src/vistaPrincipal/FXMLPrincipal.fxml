@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="57.0" layoutY="51.0" text="Benvingut de nou">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Label layoutX="57.0" layoutY="119.0" text="Resumen:">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="57.0" layoutY="198.0" prefHeight="21.0" prefWidth="375.0" text="Pròxima reserva:" />
+      <Label layoutX="57.0" layoutY="413.0" prefHeight="21.0" prefWidth="375.0" text="Pistes lliures pròxima sessió" />
+      <Label layoutX="95.0" layoutY="230.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" text="No tens reserves" />
+      <Label layoutX="96.0" layoutY="452.0" prefHeight="126.0" prefWidth="278.0" text="No hay pistas libres en la próxima hora" />
+      <Button layoutX="272.0" layoutY="350.0" mnemonicParsing="false" text="Veure reserves" />
+      <Button layoutX="272.0" layoutY="589.0" mnemonicParsing="false" text="Veure pistes" />
+      <Line endX="-100.0" endY="457.0" layoutX="612.0" layoutY="169.0" startX="-100.0" startY="-41.0" />
+      <Label layoutX="552.0" layoutY="198.0" text="Reserves pendents de pagament:" />
+      <Label layoutX="580.0" layoutY="230.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" text="No tens reserves" />
+      <Button layoutX="711.0" layoutY="350.0" mnemonicParsing="false" text="Eliminar reserves" />
+   </children>
+</AnchorPane>

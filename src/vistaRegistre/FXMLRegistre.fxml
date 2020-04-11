@@ -39,7 +39,7 @@
             <TextField fx:id="telf" layoutX="203.0" layoutY="487.0" onKeyTyped="#telfCorrecte" prefHeight="31.0" prefWidth="95.0" />
             <TextField fx:id="svc" layoutX="239.0" layoutY="663.0" onKeyTyped="#svcCorrecte" prefHeight="31.0" prefWidth="45.0" />
             <Button fx:id="selecImage" layoutX="205.0" layoutY="381.0" mnemonicParsing="false" onAction="#selecImatge" text="Seleccionar" />
-            <Label fx:id="rutaImatge" layoutX="313.0" layoutY="386.0" prefHeight="21.0" prefWidth="166.0" textFill="#726f6f" textOverrun="LEADING_ELLIPSIS" />
+            <Label fx:id="rutaImatge" layoutX="313.0" layoutY="386.0" prefHeight="21.0" prefWidth="166.0" text="Imatge no seleccionada" textFill="#e31414" textOverrun="LEADING_ELLIPSIS" />
             <Line endX="237.0" endY="1.52587890625E-5" layoutX="363.0" layoutY="46.0" startX="-66.0" startY="1.52587890625E-5" />
             <Line endX="-9.0" endY="1.52587890625E-5" layoutX="63.0" layoutY="46.0" startX="-54.0" startY="1.52587890625E-5" />
             <Button fx:id="regButton" layoutX="424.0" layoutY="725.0" mnemonicParsing="false" onAction="#completarReg" prefHeight="50.0" prefWidth="139.0" text="Registrar-se" />

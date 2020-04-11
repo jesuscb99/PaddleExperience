@@ -40,6 +40,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import model.Member;
+import paddleexperience.FXMLPaddleController;
 
 /**
  *
@@ -75,6 +76,8 @@ public class FXMLRegistreController implements Initializable {
    private boolean consume = false;
    private BooleanProperty totCorrecte;
    ClubDBAccess club;
+   FXMLPaddleController main;
+           
    private FileChooser fileChooser;
     private BooleanProperty nomCorrecte;
     private BooleanProperty usuariCorrecte;
@@ -82,6 +85,8 @@ public class FXMLRegistreController implements Initializable {
     private BooleanProperty telfCorrecte;
     private BooleanProperty numCardCorrecte;
     private BooleanProperty svcCorrecte;
+    private BooleanProperty imgCorrecte;
+    
     @FXML
     private Label errorTelf;
     @FXML
@@ -93,6 +98,7 @@ public class FXMLRegistreController implements Initializable {
  
     private Image imatge;
 
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -199,9 +205,9 @@ public class FXMLRegistreController implements Initializable {
 
     
     
-    public void init() {
+    public void init(FXMLPaddleController main) {
         fileChooser = new FileChooser();
-        
+        this.main = main;
         totCorrecte = new SimpleBooleanProperty(false);
         
         usuariCorrecte = new SimpleBooleanProperty(false);
@@ -210,7 +216,7 @@ public class FXMLRegistreController implements Initializable {
         telfCorrecte = new SimpleBooleanProperty(false);
         numCardCorrecte = new SimpleBooleanProperty(false);
         svcCorrecte = new SimpleBooleanProperty(false);
-        
+        imgCorrecte = new SimpleBooleanProperty(false);
         
         usuari.textProperty().addListener((a, b, c) -> {
                 comprovarUsuari();
@@ -250,7 +256,7 @@ public class FXMLRegistreController implements Initializable {
          * COMPROVAR
          */
         totCorrecte.bind(Bindings.and(nomCorrecte, Bindings.and(usuariCorrecte, Bindings.and(telfCorrecte,
-                Bindings.and(numCardCorrecte, Bindings.and(svcCorrecte, contraCorrecte))))));
+                Bindings.and(numCardCorrecte, Bindings.and(svcCorrecte, Bindings.and(imgCorrecte, contraCorrecte)))))));
         
         regButton.disableProperty().bind(Bindings.not(totCorrecte));
         
@@ -262,6 +268,8 @@ public class FXMLRegistreController implements Initializable {
                 usuari.getText(), contra.getText(), numCard.getText(), svc.getText(), imatge);
         club.getMembers().add(nuevo);
         club.saveDB();
+        
+        main.entrar(nuevo);
     }
 
    
@@ -411,9 +419,14 @@ public class FXMLRegistreController implements Initializable {
             //Codi per a importar la imatge es de una pagina web (Inlcuit file chooser)
             try {
                 imatge = new Image(new FileInputStream(url));
+                
+                
+                
+                imgCorrecte.setValue(true);
                 rutaImatge.setText(url);
             } catch(FileNotFoundException e) {
                 System.err.println(e.getCause());
+                imgCorrecte.setValue(false);
                 rutaImatge.setText("Error obrint la imatge");
             }
         }

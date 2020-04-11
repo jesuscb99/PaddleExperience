@@ -13,15 +13,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import DBAcess.ClubDBAccess;
 import java.io.IOException;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToolBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import model.Member;
 import vistaLogin.FXMLLoginController;
 import vistaPistes.FXMLVistaPistesController;
+import vistaPrincipal.FXMLPrincipalController;
 import vistaRegistre.FXMLRegistreController;
 
 /**
@@ -33,11 +41,20 @@ public class FXMLPaddleController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
-    public boolean logged = false;
+    public BooleanProperty logged;
+    @FXML
+    private ToolBar toolbarNoLogged;
+    @FXML
+    private HBox toolbarLogged;
+    @FXML
+    private ImageView fotoPerfil;
+    @FXML
+    private Label usuariText;
+    private Member member;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      
+        logged = new SimpleBooleanProperty(false);
       
          FXMLLoader miCargador = new FXMLLoader(getClass().getResource("/vistaPistes/FXMLVistaPistes.fxml"));
          try {
@@ -53,6 +70,9 @@ public class FXMLPaddleController implements Initializable {
          } catch(IOException e) {
              System.err.println(e.toString());
          }
+         
+         toolbarLogged.visibleProperty().bind(logged);
+         toolbarNoLogged.visibleProperty().bind(Bindings.not(logged));
     }    
 
     @FXML
@@ -65,7 +85,7 @@ public class FXMLPaddleController implements Initializable {
             VBox root = (VBox) miCargador.load();
             FXMLLoginController controlador = miCargador.<FXMLLoginController>getController();
              controlador.init(this);
-             System.out.println("yeeee");
+            
              borderPane.setCenter(root);
              
          } catch(IOException e) {
@@ -87,7 +107,7 @@ public class FXMLPaddleController implements Initializable {
             VBox root = (VBox) miCargador.load();
             FXMLVistaPistesController controlador = miCargador.<FXMLVistaPistesController>getController();
             controlador.init();
-             System.out.println("yeeee");
+           
              borderPane.setCenter(root);
              
          } catch(IOException e) {
@@ -95,8 +115,27 @@ public class FXMLPaddleController implements Initializable {
          }
     }
     
-    public void entrar() {
+    public void entrar(Member mem) {
         System.out.println("Estic diiiins");
+        member = mem;
+        fotoPerfil.setImage(member.getImage());
+        usuariText.setText("Usuari: " + member.getLogin());
+       
+        FXMLLoader miCargador = new FXMLLoader(getClass().getResource("/vistaPrincipal/FXMLPrincipal.fxml"));
+         try {
+             
+            
+            AnchorPane root = (AnchorPane) miCargador.load();
+            FXMLPrincipalController controlador = miCargador.<FXMLPrincipalController>getController();
+            //controlador.init();
+             System.out.println("yeeee");
+             borderPane.setCenter(root);
+             
+         } catch(IOException e) {
+             System.err.println(e.toString());
+         }
+         
+        logged.setValue(true);
     }
     
     public void register() {
@@ -111,7 +150,7 @@ public class FXMLPaddleController implements Initializable {
            //borderPane.setMinHeight(root.getHeight() + 1000);
            
             FXMLRegistreController controlador = miCargador.<FXMLRegistreController>getController();
-            controlador.init();
+            controlador.init(this);
             
              borderPane.setCenter(root);
              
