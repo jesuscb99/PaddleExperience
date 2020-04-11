@@ -5,34 +5,421 @@
  */
 package vistaRegistre;
 
+
+import DBAcess.ClubDBAccess;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyCode;
+
+
+
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
+import model.Member;
 
 /**
  *
  * @author almagar3
  */
 public class FXMLRegistreController implements Initializable {
+
+    @FXML
+    private Label errorUsuari;
+    @FXML
+    private Label errorPassword;
+    @FXML
+    private VBox vbox;
+    @FXML
+    private TextField nom;
+    @FXML
+    private TextField cognoms;
+    @FXML
+    private TextField usuari;
+    @FXML
+    private TextField contra;
+    @FXML
+    private TextField numCard;
+    @FXML
+    private TextField telf;
+    @FXML
+    private TextField svc;
+    @FXML
+    private Button selecImage;
+    @FXML
+    private Button regButton;
     
-   
-    private void handleButtonAction(ActionEvent event) {
-        
-    }
-    
+   private boolean consume = false;
+   private BooleanProperty totCorrecte;
+   ClubDBAccess club;
+   private FileChooser fileChooser;
+    private BooleanProperty nomCorrecte;
+    private BooleanProperty usuariCorrecte;
+    private BooleanProperty contraCorrecte;
+    private BooleanProperty telfCorrecte;
+    private BooleanProperty numCardCorrecte;
+    private BooleanProperty svcCorrecte;
+    @FXML
+    private Label errorTelf;
+    @FXML
+    private Label errNumCard;
+    @FXML
+    private Label errSvc;
+    @FXML
+    private Label rutaImatge;
+ 
+    private Image imatge;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+      nom.addEventFilter(KeyEvent.KEY_PRESSED,
+              new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        KeyCode tecla = event.getCode();
+                        
+                        if(!tecla.isLetterKey()) {
+                            if(!tecla.equals(KeyCode.SPACE) && !tecla.equals(KeyCode.SHIFT)) {
+                                 consume = true;
+                            }
+                        }
+                      
+                    }
+                  
+              }
+              );
+      
+      
+      ////////////
+      contra.addEventFilter(KeyEvent.KEY_PRESSED,
+              new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        KeyCode tecla = event.getCode();
+                        
+                        if(!tecla.isLetterKey()) {
+                            if(!tecla.equals(KeyCode.SPACE) && !tecla.equals(KeyCode.SHIFT)) {
+                                 consume = true;
+                            }
+                        }
+                      
+                    }
+                  
+              }
+              );
+      /////////
+      usuari.addEventFilter(KeyEvent.KEY_PRESSED,
+              new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        KeyCode tecla = event.getCode();
+                        
+                        if(tecla.equals(KeyCode.SPACE)) {
+                            consume = true;
+                        }
+                      
+                    }
+                  
+              }
+              );
+      ///////////////
+      telf.addEventFilter(KeyEvent.KEY_PRESSED,
+              new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        KeyCode tecla = event.getCode();
+                        
+                        if(!tecla.isDigitKey() || telf.getText().length() >= 9) {
+                            
+                            consume = true;
+                        }
+                      
+                    }
+                  
+              }
+              );
+      //////////
+      svc.addEventFilter(KeyEvent.KEY_PRESSED,
+              new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        KeyCode tecla = event.getCode();
+                        
+                        if(!tecla.isDigitKey() || svc.getText().length() >= 3) {
+                            
+                            consume = true;
+                        }
+                      
+                    }
+                  
+              }
+              );
+      
+      numCard.addEventFilter(KeyEvent.KEY_PRESSED,
+              new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        KeyCode tecla = event.getCode();
+                        
+                        if(!tecla.isDigitKey() || numCard.getText().length() >= 16) {
+                           
+                            consume = true;
+                        }
+                      
+                    }
+                  
+              }
+              );
+      ///////////////////
     }    
 
     
-    //private void pulsadoIniciar(ActionEvent event) {
-        //mensaje_usuario.setText("Registrado " + texto_usuario.getText());
-    //}
+    
+    public void init() {
+        fileChooser = new FileChooser();
+        
+        totCorrecte = new SimpleBooleanProperty(false);
+        
+        usuariCorrecte = new SimpleBooleanProperty(false);
+        contraCorrecte = new SimpleBooleanProperty(false);
+        nomCorrecte = new SimpleBooleanProperty(false);
+        telfCorrecte = new SimpleBooleanProperty(false);
+        numCardCorrecte = new SimpleBooleanProperty(false);
+        svcCorrecte = new SimpleBooleanProperty(false);
+        
+        
+        usuari.textProperty().addListener((a, b, c) -> {
+                comprovarUsuari();
+        }
+        );
+        
+        contra.textProperty().addListener((a, b, c) -> {
+                comprovarContra();
+        }
+        );
+       
+       ChangeListener<String> listenerNom = new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                comprovarNomComplet();
+            }
+        
+        };
+       nom.textProperty().addListener(listenerNom);
+       cognoms.textProperty().addListener(listenerNom);
+       
+       telf.textProperty().addListener((a, b, c) -> {
+                comprovarTelf();
+        }
+        );
+       
+        numCard.textProperty().addListener((a, b, c) -> {
+                comprovarNumCard();
+        }
+        );
+        
+        svc.textProperty().addListener((a, b, c) -> {
+                comprovarSvc();
+        }
+        );
+        /**
+         * COMPROVAR
+         */
+        totCorrecte.bind(Bindings.and(nomCorrecte, Bindings.and(usuariCorrecte, Bindings.and(telfCorrecte,
+                Bindings.and(numCardCorrecte, Bindings.and(svcCorrecte, contraCorrecte))))));
+        
+        regButton.disableProperty().bind(Bindings.not(totCorrecte));
+        
+        club = DBAcess.ClubDBAccess.getSingletonClubDBAccess();
+    }
+    @FXML
+    private void completarReg(ActionEvent event) {
+        Member nuevo = new Member(nom.getText(), cognoms.getText(), telf.getText(), 
+                usuari.getText(), contra.getText(), numCard.getText(), svc.getText(), imatge);
+        club.getMembers().add(nuevo);
+        club.saveDB();
+    }
+
+   
+    private void consumirEvent(KeyEvent event) {
+        if(consume) {
+            consume = false;
+            event.consume();
+            
+        }
+    }
+    @FXML
+    private void usuariCorrecte(KeyEvent event) {
+      
+         consumirEvent(event);
+         
+    }
+    
+    private void comprovarUsuari() {
+        String user = usuari.getText();
+        String password = contra.getText();
+        
+            List<String> usuaris = new ArrayList();
+            ArrayList<Member> membres = club.getMembers();
+            
+            for(Member m : membres) {
+                
+                usuaris.add(m.getLogin());
+            }
+            
+            if(usuaris.remove(user)) {
+                usuariCorrecte.setValue(false);
+                errorUsuari.visibleProperty().setValue(true);
+            } else if(!usuari.getText().isEmpty()){
+                usuariCorrecte.setValue(true);
+                errorUsuari.visibleProperty().setValue(false);
+                        
+            } else{
+                usuariCorrecte.setValue(false);
+                errorUsuari.visibleProperty().setValue(false);
+            }
+    }
+    
+    private void comprovarContra() {
+       
+        String pass = contra.getText();
+        if(pass.length() < 6) {
+            if(pass.isEmpty()) {
+                errorPassword.visibleProperty().setValue(false);
+            } else {
+                 errorPassword.visibleProperty().setValue(true);
+            }
+            
+            contraCorrecte.setValue(false);
+        } else {
+            contraCorrecte.setValue(true);
+            errorPassword.visibleProperty().setValue(false);
+        }
+    }
+    
+    private void comprovarNomComplet() {
+        if(!nom.getText().isEmpty() &&
+           !cognoms.getText().isEmpty()) {
+                nomCorrecte.setValue(true);
+        } else {
+            nomCorrecte.setValue(false);
+        }
+    }
+    
+    private void comprovarTelf() {
+        String telef = telf.getText();
+        if(telef.length() < 9) {
+            if(telef.isEmpty()) {
+                
+                errorTelf.visibleProperty().setValue(false);
+            } else {
+                errorTelf.visibleProperty().setValue(true);
+            }
+            telfCorrecte.setValue(false);
+            
+        } else {
+            errorTelf.visibleProperty().setValue(false);
+            telfCorrecte.setValue(true);
+        }
+        
+    }
+    private void comprovarNumCard() {
+        if(numCard.getText().length() < 16) {
+            if(numCard.getText().isEmpty()) {
+                errNumCard.visibleProperty().setValue(false);
+            
+            } else {
+                errNumCard.visibleProperty().setValue(true);
+            }
+            numCardCorrecte.setValue(false);
+        } else {
+            errNumCard.visibleProperty().setValue(false);
+            numCardCorrecte.setValue(true);
+        }
+        
+    }
+    private void comprovarSvc() {
+        if(svc.getText().length() < 3) {
+            if(svc.getText().isEmpty()) {
+                errSvc.visibleProperty().setValue(false);
+            } else {
+                errSvc.visibleProperty().setValue(true);
+            }
+            svcCorrecte.setValue(false);
+        } else {
+            errSvc.visibleProperty().setValue(false);
+            svcCorrecte.setValue(true);
+        }
+    }
+    @FXML
+    private void nomCorrecte(KeyEvent event) {
+    
+        consumirEvent(event);
+       
+    }
+
+    @FXML
+    private void numCardCorrecte(KeyEvent event) {
+       
+        consumirEvent(event);
+    }
+
+    @FXML
+    private void telfCorrecte(KeyEvent event) {
+      
+        consumirEvent(event);
+    }
+
+    @FXML
+    private void svcCorrecte(KeyEvent event) {
+        consumirEvent(event);
+    }
+
+    @FXML
+    private void selecImatge(ActionEvent event) {
+        
+        Button select = (Button) event.getSource();
+        Window ownerWindow = (Window) select.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(ownerWindow);
+        if(file != null) {
+            String url = file.toPath().toString();
+                    
+            //Codi per a importar la imatge es de una pagina web (Inlcuit file chooser)
+            try {
+                imatge = new Image(new FileInputStream(url));
+                rutaImatge.setText(url);
+            } catch(FileNotFoundException e) {
+                System.err.println(e.getCause());
+                rutaImatge.setText("Error obrint la imatge");
+            }
+        }
+      
+        
+    }
+
     
 }

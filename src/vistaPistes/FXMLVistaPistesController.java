@@ -81,20 +81,20 @@ public class FXMLVistaPistesController implements Initializable {
        tableView.widthProperty().addListener((object, oldValue, newValue) -> {
            
             System.out.println(newValue);
-            col0.setMaxWidth(tableView.getWidth() / 5.0);
-            col0.setMinWidth(tableView.getWidth() / 5.0);
+            col0.setMaxWidth(tableView.getWidth() * 0.1);
+            col0.setMinWidth(tableView.getWidth() * 0.1);
             
-            col1.setMaxWidth(tableView.getWidth() / 5.0);
-            col1.setMinWidth(tableView.getWidth() / 5.0);
+            col1.setMaxWidth((tableView.getWidth() - 5) * 0.225);
+            col1.setMinWidth((tableView.getWidth() - 5) * 0.225);
             
-            col2.setMinWidth(tableView.getWidth() / 5.0);
-            col2.setMaxWidth(tableView.getWidth() / 5.0);
+            col2.setMinWidth((tableView.getWidth() - 5) * 0.225);
+            col2.setMaxWidth((tableView.getWidth() - 5) * 0.225);
             
-            col3.setMinWidth(tableView.getWidth() / 5.0);
-            col3.setMaxWidth(tableView.getWidth() / 5.0);
+            col3.setMinWidth((tableView.getWidth() - 5) * 0.225);
+            col3.setMaxWidth((tableView.getWidth() - 5) * 0.225);
             
-            col4.setMinWidth(tableView.getWidth() / 5.0);
-            col4.setMaxWidth(tableView.getWidth() / 5.0);
+            col4.setMinWidth((tableView.getWidth() - 5) * 0.225);
+            col4.setMaxWidth((tableView.getWidth() - 5) * 0.225);
         });
         
         selecDia.valueProperty().set(LocalDate.now());
@@ -133,6 +133,9 @@ public class FXMLVistaPistesController implements Initializable {
                         super.updateItem(item, empty);
                         if(item == null || empty) {
                             setText("Lliure");
+                            if(empty) {
+                                setText("");
+                            }
                         } else {
                            setText(item.getMember().getName());
                         }
@@ -150,6 +153,9 @@ public class FXMLVistaPistesController implements Initializable {
                         super.updateItem(item, empty);
                         if(item == null || empty) {
                             setText("Lliure");
+                            if(empty) {
+                                setText("");
+                            }
                         } else {
                            setText(item.getMember().getName());
                         }
@@ -168,6 +174,9 @@ public class FXMLVistaPistesController implements Initializable {
                         super.updateItem(item, empty);
                         if(item == null || empty) {
                             setText("Lliure");
+                            if(empty) {
+                                setText("");
+                            }
                         } else {
                            setText(item.getMember().getName());
                         }
@@ -185,6 +194,9 @@ public class FXMLVistaPistesController implements Initializable {
                         super.updateItem(item, empty);
                         if(item == null || empty) {
                             setText("Lliure");
+                            if(empty) {
+                                setText("");
+                            }
                         } else {
                            setText(item.getMember().getName());
                         }
