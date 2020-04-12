@@ -7,6 +7,7 @@ package vistaRegistre;
 
 
 import DBAcess.ClubDBAccess;
+import com.sun.glass.ui.Application;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -38,9 +40,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import model.Member;
 import paddleexperience.FXMLPaddleController;
+import vistaPistes.FXMLVistaPistesController;
 
 /**
  *
@@ -52,8 +56,6 @@ public class FXMLRegistreController implements Initializable {
     private Label errorUsuari;
     @FXML
     private Label errorPassword;
-    @FXML
-    private VBox vbox;
     @FXML
     private TextField nom;
     @FXML
@@ -76,8 +78,9 @@ public class FXMLRegistreController implements Initializable {
    private boolean consume = false;
    private BooleanProperty totCorrecte;
    ClubDBAccess club;
-   FXMLPaddleController main;
-           
+   private FXMLPaddleController main;
+
+   private FXMLVistaPistesController pistaController;
    private FileChooser fileChooser;
     private BooleanProperty nomCorrecte;
     private BooleanProperty usuariCorrecte;
@@ -86,6 +89,7 @@ public class FXMLRegistreController implements Initializable {
     private BooleanProperty numCardCorrecte;
     private BooleanProperty svcCorrecte;
     private BooleanProperty imgCorrecte;
+    private boolean modal;
     
     @FXML
     private Label errorTelf;
@@ -97,6 +101,8 @@ public class FXMLRegistreController implements Initializable {
     private Label rutaImatge;
  
     private Image imatge;
+    @FXML
+    private ProgressIndicator iconoCarga;
 
     
     @Override
@@ -204,12 +210,16 @@ public class FXMLRegistreController implements Initializable {
     }    
 
     
-    
-    public void init(FXMLPaddleController main) {
+     public void init(FXMLPaddleController main,FXMLVistaPistesController pistaController, boolean modal) {
+         this.pistaController = pistaController;
+     init(main, modal);
+     }
+    public void init(FXMLPaddleController main, boolean modal) {
         fileChooser = new FileChooser();
         this.main = main;
         totCorrecte = new SimpleBooleanProperty(false);
-        
+        this.modal = modal;
+        iconoCarga.setVisible(false);
         usuariCorrecte = new SimpleBooleanProperty(false);
         contraCorrecte = new SimpleBooleanProperty(false);
         nomCorrecte = new SimpleBooleanProperty(false);
@@ -263,13 +273,43 @@ public class FXMLRegistreController implements Initializable {
         club = DBAcess.ClubDBAccess.getSingletonClubDBAccess();
     }
     @FXML
-    private void completarReg(ActionEvent event) {
+    private void completarReg(ActionEvent event) throws InterruptedException {
         Member nuevo = new Member(nom.getText(), cognoms.getText(), telf.getText(), 
                 usuari.getText(), contra.getText(), numCard.getText(), svc.getText(), imatge);
         club.getMembers().add(nuevo);
-        club.saveDB();
         
-        main.entrar(nuevo);
+              
+        Thread guardar = new Thread() {
+            public void run() {
+                club.saveDB();
+               
+            }
+        };
+          Thread acabar = new Thread() {
+            public void run() {
+                try {
+                     guardar.join();
+                }catch(InterruptedException e) {}
+                iconoCarga.setVisible(false);
+               
+            }
+        };
+        guardar.start(); 
+        
+        iconoCarga.setVisible(true);
+        acabar.start();
+        
+       main.logged.setValue(true);
+       
+        if(modal){ 
+            pistaController.setMember(nuevo);
+            Stage stage = (Stage) regButton.getScene().getWindow();
+            
+            stage.close();
+            
+        } else {
+            main.entrar(nuevo);
+        }
     }
 
    

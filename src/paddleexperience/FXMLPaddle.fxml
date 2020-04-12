@@ -11,11 +11,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="934.0" prefWidth="1072.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paddleexperience.FXMLPaddleController">
+
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="878.0" prefWidth="1139.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paddleexperience.FXMLPaddleController">
    <top>
       <StackPane prefHeight="68.0" prefWidth="1072.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="toolbarLogged" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: lightgrey;">
+            <HBox fx:id="toolbarLogged" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: lightgrey;" visible="false">
                <children>
                   <HBox alignment="CENTER_LEFT" focusTraversable="true" maxWidth="316.0" prefHeight="60.0" prefWidth="316.0" spacing="10.0">
                      <children>
@@ -63,7 +64,7 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <ToolBar fx:id="toolbarNoLogged" maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" visible="false">
+            <ToolBar fx:id="toolbarNoLogged" maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" StackPane.alignment="CENTER">
               <items>
                 <Button mnemonicParsing="false" onAction="#login" text="Iniciar sessión">
                      <graphic>

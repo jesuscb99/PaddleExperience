@@ -20,11 +20,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import model.Member;
 import vistaLogin.FXMLLoginController;
@@ -52,18 +56,24 @@ public class FXMLPaddleController implements Initializable {
     private Label usuariText;
     private Member member;
     
+    public BooleanProperty cargant;
+    @FXML
+    public ProgressIndicator iconoCargant;
+   
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logged = new SimpleBooleanProperty(false);
-      
+       cargant = new SimpleBooleanProperty(false);
+       
          FXMLLoader miCargador = new FXMLLoader(getClass().getResource("/vistaPistes/FXMLVistaPistes.fxml"));
          try {
              
              //AnchorPane vistaPistes = (AnchorPane) FXMLLoader.load(getClass().getResource("/vistaPistes/FXMLVistaPistes.fxml"));
              //hola
-            VBox root = (VBox) miCargador.load();
+            StackPane root = (StackPane) miCargador.load();
             FXMLVistaPistesController controlador = miCargador.<FXMLVistaPistesController>getController();
-            controlador.init();
+            controlador.init(member, this);
              System.out.println("yeeee");
              borderPane.setCenter(root);
              
@@ -73,8 +83,11 @@ public class FXMLPaddleController implements Initializable {
          
          toolbarLogged.visibleProperty().bind(logged);
          toolbarNoLogged.visibleProperty().bind(Bindings.not(logged));
+ 
+       
     }    
 
+   
     @FXML
     private void login(ActionEvent event) {
         FXMLLoader miCargador = new FXMLLoader(getClass().getResource("/vistaLogin/FXMLLogin.fxml"));
@@ -85,7 +98,7 @@ public class FXMLPaddleController implements Initializable {
             VBox root = (VBox) miCargador.load();
             FXMLLoginController controlador = miCargador.<FXMLLoginController>getController();
              controlador.init(this);
-            
+             
              borderPane.setCenter(root);
              
          } catch(IOException e) {
@@ -100,13 +113,17 @@ public class FXMLPaddleController implements Initializable {
 
     @FXML
     private void pistes(ActionEvent event) {
+        reservarPista();
+    }
+    
+    public void reservarPista() {
         FXMLLoader miCargador = new FXMLLoader(getClass().getResource("/vistaPistes/FXMLVistaPistes.fxml"));
          try {
              
             
-            VBox root = (VBox) miCargador.load();
+            StackPane root = (StackPane) miCargador.load();
             FXMLVistaPistesController controlador = miCargador.<FXMLVistaPistesController>getController();
-            controlador.init();
+            controlador.init(member, this);
            
              borderPane.setCenter(root);
              
@@ -114,7 +131,12 @@ public class FXMLPaddleController implements Initializable {
              System.err.println(e.toString());
          }
     }
-    
+    public void updatePerfil(Member mem) {
+        System.out.println("Estic diiiins");
+        member = mem;
+        fotoPerfil.setImage(member.getImage());
+        usuariText.setText("Usuari: " + member.getLogin());
+    }
     public void entrar(Member mem) {
         System.out.println("Estic diiiins");
         member = mem;
@@ -125,9 +147,9 @@ public class FXMLPaddleController implements Initializable {
          try {
              
             
-            AnchorPane root = (AnchorPane) miCargador.load();
+            VBox root = (VBox) miCargador.load();
             FXMLPrincipalController controlador = miCargador.<FXMLPrincipalController>getController();
-            //controlador.init();
+             controlador.init(member, this);
              System.out.println("yeeee");
              borderPane.setCenter(root);
              
@@ -143,14 +165,14 @@ public class FXMLPaddleController implements Initializable {
          try {
              
             
-            VBox root = (VBox) miCargador.load();
+            BorderPane root = (BorderPane) miCargador.load();
             
           
            borderPane.setAlignment(root, Pos.TOP_CENTER);
            //borderPane.setMinHeight(root.getHeight() + 1000);
            
             FXMLRegistreController controlador = miCargador.<FXMLRegistreController>getController();
-            controlador.init(this);
+            controlador.init(this, false);
             
              borderPane.setCenter(root);
              

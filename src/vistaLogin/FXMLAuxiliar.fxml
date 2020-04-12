@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vistaLogin.FXMLAuxiliarController">
+   <children>
+      <Label layoutX="44.0" layoutY="36.0" text="Iniciar sessió.">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Label layoutX="100.0" layoutY="133.0" text="Usuari:" />
+      <Label layoutX="70.0" layoutY="176.0" text="Contraseya:" />
+      <TextField fx:id="usuari" layoutX="148.0" layoutY="128.0" />
+      <PasswordField fx:id="contra" layoutX="148.0" layoutY="171.0" />
+      <Button layoutX="270.0" layoutY="234.0" mnemonicParsing="false" onAction="#login" text="Entrar" />
+      <Label fx:id="errLabel" layoutX="48.0" layoutY="96.0" />
+      <Label layoutX="58.0" layoutY="328.0" text="No tens compte?">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Button layoutX="242.0" layoutY="389.0" mnemonicParsing="false" onAction="#register" text="Registrar-se" />
+   </children>
+</AnchorPane>

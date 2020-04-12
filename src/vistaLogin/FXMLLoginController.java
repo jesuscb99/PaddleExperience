@@ -16,6 +16,8 @@ import paddleexperience.FXMLPaddleController;
 import DBAcess.ClubDBAccess;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import model.Member;
 /**
  * FXML Controller class
@@ -31,6 +33,7 @@ public class FXMLLoginController implements Initializable {
     private FXMLPaddleController main;
     @FXML
     private TextField pass;
+    
     /**
      * Initializes the controller class.
      */
@@ -41,10 +44,10 @@ public class FXMLLoginController implements Initializable {
 
     public void init(FXMLPaddleController main) {
         this.main = main;
+        
     }
     
-    @FXML
-    private void login(ActionEvent event) {
+    private boolean login() {
         errorLabel.setText("");
         String user = usuari.getText();
         String password = pass.getText();
@@ -66,16 +69,31 @@ public class FXMLLoginController implements Initializable {
            } else {
                errorLabel.setText("El usuari introduit no existeix.");
            }
-           
+           return false;
         } else {
             
             main.entrar(membreAct);
+            return true;
         }
     }
+    @FXML
+    private void login(ActionEvent event) {
+        login();
+    }
 
+    
     @FXML
     private void register(ActionEvent event) {
         main.register();
+    }
+
+    @FXML
+    private void enterPressed(KeyEvent event) {
+        KeyCode tecla = event.getCode();
+        
+        if(tecla.equals(KeyCode.ENTER)) {
+            login();
+        }
     }
     
     
