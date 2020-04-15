@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -10,15 +11,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="609.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vistaPrincipal.FXMLPrincipalController">
+<VBox prefHeight="606.0" prefWidth="1182.0" stylesheets="@../styles/stylePrincipal.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vistaPrincipal.FXMLPrincipalController">
    <children>
-      <VBox>
+      <VBox alignment="CENTER">
          <children>
             <HBox>
                <children>
                   <Label text="Benvingut de nou">
                      <font>
-                        <Font size="33.0" />
+                        <Font name="Calibri" size="40.0" />
                      </font>
                   </Label>
                </children>
@@ -26,18 +27,21 @@
                   <Insets left="45.0" />
                </padding>
             </HBox>
-            <HBox alignment="CENTER">
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="97.0" prefWidth="587.0" styleClass="hbox">
                <children>
-                  <Label text="Resum:">
+                  <Label styleClass="titol" text="Resum:">
                      <font>
-                        <Font size="47.0" />
+                        <Font name="Nirmala UI" size="47.0" />
                      </font>
                   </Label>
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
          </children>
       </VBox>
-      <GridPane alignment="CENTER" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" VBox.vgrow="ALWAYS">
+      <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" VBox.vgrow="ALWAYS">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="ALWAYS" minWidth="-Infinity" prefWidth="100.0" />
@@ -47,52 +51,94 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox spacing="10.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <VBox spacing="10.0" styleClass="vbox" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="375.0" text="Pròxima reserva:" />
-                  <Label fx:id="proxReserv" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" text="No tens reserves" />
+                  <Label maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="375.0" text="Pròxima reserva:">
+                     <styleClass>
+                        <String fx:value="apartat1" />
+                        <String fx:value="apartats" />
+                     </styleClass>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding></Label>
+                  <Label fx:id="proxReserv" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No tens reserves">
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding></Label>
                   <HBox alignment="CENTER_RIGHT">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#reserves" prefHeight="49.0" prefWidth="125.0" text="Meues reserves" />
+                        <Button mnemonicParsing="false" onAction="#reserves" prefHeight="49.0" prefWidth="125.0" styleClass="button1" text="Meues reserves" />
                      </children>
                      <VBox.margin>
                         <Insets right="15.0" />
                      </VBox.margin>
                   </HBox>
                </children>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
             </VBox>
-            <VBox spacing="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+            <VBox spacing="10.0" styleClass="vbox" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="375.0" text="Pistes lliures próxima sessió:" />
-                  <Label fx:id="reservFree" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" text="No hi ha pistes lliures" />
+                  <Label maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="375.0" text="Pistes lliures próxima sessió:">
+                     <styleClass>
+                        <String fx:value="apartat3" />
+                        <String fx:value="apartats" />
+                     </styleClass>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding></Label>
+                  <Label fx:id="reservFree" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No hi ha pistes lliures">
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding></Label>
                   <HBox alignment="CENTER_RIGHT">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#vorePistes" prefHeight="49.0" prefWidth="125.0" text="Veure pistes" />
+                        <Button mnemonicParsing="false" onAction="#vorePistes" prefHeight="49.0" prefWidth="125.0" styleClass="button3" text="Veure pistes" />
                      </children>
                      <VBox.margin>
                         <Insets right="15.0" />
                      </VBox.margin>
                   </HBox>
                </children>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
             </VBox>
-            <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <VBox spacing="10.0" styleClass="vbox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="375.0" text="Pròxima reserva pendent de pagament:" />
-                  <Label fx:id="reservNoPag" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" text="No hi ha reserves pendents" />
+                  <Label maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="375.0" text="Pròxima reserva pendent de pagament:">
+                     <styleClass>
+                        <String fx:value="apartat2" />
+                        <String fx:value="apartats" />
+                     </styleClass>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding></Label>
+                  <Label fx:id="reservNoPag" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No hi ha reserves pendents">
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding></Label>
                   <HBox alignment="CENTER_RIGHT">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#elimReserves" prefHeight="49.0" prefWidth="149.0" text="Eliminar reserves" />
+                        <Button mnemonicParsing="false" onAction="#elimReserves" prefHeight="49.0" prefWidth="149.0" styleClass="button2" text="Eliminar reserves" />
                      </children>
                      <VBox.margin>
                         <Insets right="15.0" />
                      </VBox.margin>
                   </HBox>
                </children>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
             </VBox>
          </children>
          <padding>
             <Insets bottom="20.0" left="50.0" right="50.0" top="25.0" />
          </padding>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
       </GridPane>
    </children>
 </VBox>

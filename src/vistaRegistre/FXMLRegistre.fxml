@@ -47,8 +47,8 @@
                   <Label layoutX="131.0" layoutY="624.0" text="Telèfon:" />
                   <Label layoutX="143.0" layoutY="495.0" text="Imatge:" />
                   <Label layoutX="83.0" layoutY="714.0" styleClass="titols" text="Informacio bancaria: " />
-                  <Label layoutX="105.0" layoutY="747.0" text="Targeta de crèdit" />
-                  <Label layoutX="164.0" layoutY="772.0" text="Número:" />
+                  <Label layoutX="105.0" layoutY="742.0" text="Targeta de crèdit" />
+                  <Label layoutX="164.0" layoutY="767.0" text="Número:" />
                   <Label layoutX="169.0" layoutY="807.0" text="SVC:" />
                   <TextField fx:id="nom" layoutX="203.0" layoutY="220.0" onKeyTyped="#nomCorrecte" />
                   <TextField fx:id="cognoms" layoutX="203.0" layoutY="264.0" />
@@ -73,7 +73,7 @@
                   <Label layoutX="147.0" layoutY="226.0" prefHeight="12.0" prefWidth="9.0" styleClass="asterisc" text="*" />
                   <Label layoutX="144.0" layoutY="401.0" styleClass="asterisc" text="*" />
                   <Label layoutX="126.0" layoutY="623.0" styleClass="asterisc" text="*" />
-                  <Label layoutX="155.0" layoutY="772.0" styleClass="asterisc" text="*" />
+                  <Label layoutX="155.0" layoutY="765.0" styleClass="asterisc" text="*" />
                   <Label layoutX="163.0" layoutY="807.0" styleClass="asterisc" text="*" />
                   <Label layoutX="102.0" layoutY="448.0" styleClass="asterisc" text="*" />
                </children>

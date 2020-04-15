@@ -1,0 +1,70 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15-abr-2020, 19:29:28
+    Author     : 2jesu
+*/
+.apartats {
+     -fx-background-radius: 10;
+    -fx-font-size: 20pt;
+}
+.apartat1 {
+    -fx-background-color: #35f4d8;
+    
+}
+.apartat3 {
+    -fx-background-color: #ffd632;
+}
+.apartat2 {
+    -fx-background-color: #ff8d60;
+}
+
+.contingut {
+    -fx-font-size: 15pt;
+   -fx-font-family: 'Calibri'; 
+}
+.button {
+    -fx-font-family: 'Calibri';
+    -fx-background-radius: 20;
+    -fx-border-color: #848180;
+    -fx-border-radius: 20;
+}
+
+.button:hover {
+    -fx-background-color: #a09d9b;
+    -fx-text-fill: white;
+}
+.button1 {
+    -fx-background-color: #35f4d8;
+}
+
+.button2 {
+    -fx-background-color: #ff8d60;
+}
+.button3 {
+    -fx-background-color: #ffd632;
+}
+
+.vbox {
+    -fx-background-radius: 10;
+   -fx-background-color: #e8e8e8; 
+}
+
+.titol {
+    -fx-font-size: 50pt;
+    -fx-font-family: 'Nirmala';
+}
+
+.hbox {
+    -fx-background-color: #8cff72;
+}
+
+.root {
+    -fx-background-color: white;
+}
+@font-face {
+   src: url("Roboto-Regular.ttf");
+}

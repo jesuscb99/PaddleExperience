@@ -125,7 +125,8 @@ public class FXMLPrincipalController implements Initializable {
      
     private void updateFree() {
         LocalTime ara = LocalTime.now();
-        if(ara.compareTo(LocalTime.of(21, 0)) >= 0) {
+        
+        if(ara.compareTo(LocalTime.of(19, 30)) >= 0) {
             reservFree.setText("No queden pistes disponibles per hui");
             return;
         }
@@ -138,6 +139,7 @@ public class FXMLPrincipalController implements Initializable {
         
         do {
             i++;
+            
             proxSessio = horaris[i];
             
         }while(horaris[i].isBefore(ara));
