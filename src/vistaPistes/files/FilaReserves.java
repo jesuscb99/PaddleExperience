@@ -5,6 +5,7 @@
  */
 package vistaPistes.files;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -19,6 +20,7 @@ import model.LocalTimeAdapter;
  */
 public class FilaReserves{
        private  LocalTime time;
+       private  LocalDate date;
        private final StringProperty hora = new SimpleStringProperty();
        private final ObjectProperty<Booking> bookPista1 = new SimpleObjectProperty<Booking>(); 
        private final ObjectProperty<Booking> bookPista2 = new SimpleObjectProperty<Booking>(); 
@@ -44,6 +46,14 @@ public class FilaReserves{
        
        public LocalTime getLocalTime() {
            return time;
+       }
+       
+       public LocalDate getLocalDate() {
+           return date;
+       }
+       
+       public void setLocalDate(LocalDate date) {
+           this.date = date;
        }
        public ObjectProperty<Booking> bookingProperty(int i) {
            switch(i) {

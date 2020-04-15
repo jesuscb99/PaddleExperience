@@ -1,0 +1,55 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14-abr-2020, 22:09:28
+    Author     : 2jesu
+*/
+.celda-general {
+    -fx-border-color: #d8d8d6;
+    -fx-background-insets: 0.5 0.5 0.5 0.5;
+}
+
+.celda-pagada-par{
+    -fx-background-color: #b1ff9b;
+}
+
+.celda-pagada-impar {
+    -fx-background-color: #aaf296;
+}
+.celda-jugada {
+    -fx-background-color: #b6b3b7;
+    
+}
+
+.celda-nopagada-par {
+    
+    -fx-background-color: #ffd85b;
+}
+
+.celda-nopagada-impar {
+   -fx-background-color:  #ffd242;
+}
+
+
+.celda-pagada-par:selected {
+    -fx-background-color: #42932c;
+    -fx-text-fill: white;
+}
+
+.celda-pagada-impar:selected {
+    -fx-background-color: #42932c;
+    -fx-text-fill: white;
+}
+
+.celda-nopagada-par:selected{
+    -fx-background-color: #eda509;
+    -fx-text-fill: white;
+}
+
+.celda-nopagada-impar:selected{
+    -fx-background-color: #eda509;
+    -fx-text-fill: white;
+}

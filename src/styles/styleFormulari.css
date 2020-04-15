@@ -7,11 +7,43 @@ and open the template in the editor.
     Created on : 11-abr-2020, 12:20:17
     Author     : 2jesu
 */
-.anchor-pane {
-    -fx-border-color: black;
-   
-}
-
-.vbox {
+.label {
+    -fx-font-family: 'Roboto';
     
 }
+.asterisc {
+    -fx-text-fill: red;
+}
+.scroll-pane {
+    -fx-background-color: blue;
+}
+.titol {
+    -fx-font-family: 'Roboto';
+    -fx-font-size: 18pt;
+}
+.button {
+    -fx-font-family: 'Roboto';
+    -fx-background-radius: 50;
+}
+
+.text-field{
+    -fx-background-radius: 10;
+}
+
+
+.titols {
+    -fx-font-size: 14pt;
+    -fx-font-family: 'Roboto';
+    
+    
+  
+}
+
+.errors {
+    -fx-text-fill: red;
+}
+
+@font-face {
+   src: url('Roboto-Regular.ttf');
+}
+

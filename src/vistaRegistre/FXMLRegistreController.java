@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -79,7 +80,8 @@ public class FXMLRegistreController implements Initializable {
    private BooleanProperty totCorrecte;
    ClubDBAccess club;
    private FXMLPaddleController main;
-
+   private Member nuevo;
+   
    private FXMLVistaPistesController pistaController;
    private FileChooser fileChooser;
     private BooleanProperty nomCorrecte;
@@ -89,6 +91,9 @@ public class FXMLRegistreController implements Initializable {
     private BooleanProperty numCardCorrecte;
     private BooleanProperty svcCorrecte;
     private BooleanProperty imgCorrecte;
+    private BooleanProperty carregat;
+
+    
     private boolean modal;
     
     @FXML
@@ -215,7 +220,15 @@ public class FXMLRegistreController implements Initializable {
      init(main, modal);
      }
     public void init(FXMLPaddleController main, boolean modal) {
+        
         fileChooser = new FileChooser();
+       
+        ////////StackOverFlow
+        FileChooser.ExtensionFilter imageFilter
+             = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");
+        fileChooser.getExtensionFilters().add(imageFilter);
+        //////////////////////
+        
         this.main = main;
         totCorrecte = new SimpleBooleanProperty(false);
         this.modal = modal;
@@ -227,6 +240,13 @@ public class FXMLRegistreController implements Initializable {
         numCardCorrecte = new SimpleBooleanProperty(false);
         svcCorrecte = new SimpleBooleanProperty(false);
         imgCorrecte = new SimpleBooleanProperty(false);
+        
+        
+        //carregant = new SimpleBooleanProperty(false);
+        
+        
+        
+        
         
         usuari.textProperty().addListener((a, b, c) -> {
                 comprovarUsuari();
@@ -266,53 +286,50 @@ public class FXMLRegistreController implements Initializable {
          * COMPROVAR
          */
         totCorrecte.bind(Bindings.and(nomCorrecte, Bindings.and(usuariCorrecte, Bindings.and(telfCorrecte,
-                Bindings.and(numCardCorrecte, Bindings.and(svcCorrecte, Bindings.and(imgCorrecte, contraCorrecte)))))));
+                Bindings.and(numCardCorrecte, Bindings.and(svcCorrecte, contraCorrecte))))));
         
-        regButton.disableProperty().bind(Bindings.not(totCorrecte));
+        regButton.disableProperty().bind(Bindings.or(main.cargant, Bindings.not(totCorrecte)));
         
         club = DBAcess.ClubDBAccess.getSingletonClubDBAccess();
     }
     @FXML
     private void completarReg(ActionEvent event) throws InterruptedException {
-        Member nuevo = new Member(nom.getText(), cognoms.getText(), telf.getText(), 
+        Member actual = null;
+        
+        if(imgCorrecte.getValue()) {
+            actual = new Member(nom.getText(), cognoms.getText(), telf.getText(), 
                 usuari.getText(), contra.getText(), numCard.getText(), svc.getText(), imatge);
-        club.getMembers().add(nuevo);
-        
-              
-        Thread guardar = new Thread() {
-            public void run() {
-                club.saveDB();
-               
-            }
-        };
-          Thread acabar = new Thread() {
-            public void run() {
-                try {
-                     guardar.join();
-                }catch(InterruptedException e) {}
-                iconoCarga.setVisible(false);
-               
-            }
-        };
-        guardar.start(); 
-        
-        iconoCarga.setVisible(true);
-        acabar.start();
-        
-       main.logged.setValue(true);
-       
-        if(modal){ 
-            pistaController.setMember(nuevo);
-            Stage stage = (Stage) regButton.getScene().getWindow();
-            
-            stage.close();
-            
         } else {
+            
+                 actual = new Member(nom.getText(), cognoms.getText(), telf.getText(), 
+                usuari.getText(), contra.getText(), numCard.getText(), svc.getText(), null);
+          
+           
+        }
+        
+        club.getMembers().add(actual);
+        
+        nuevo = actual;
+        
+      
+  
+        main.logged.setValue(true);
+   
+        if (modal) {
+            Stage stage = (Stage) regButton.getScene().getWindow();
+            pistaController.setMember(nuevo);
+            main.updatePerfil(nuevo);
+            stage.close();
+
+        } else {
+
             main.entrar(nuevo);
         }
+       
+        
     }
 
-   
+  
     private void consumirEvent(KeyEvent event) {
         if(consume) {
             consume = false;
@@ -329,27 +346,20 @@ public class FXMLRegistreController implements Initializable {
     
     private void comprovarUsuari() {
         String user = usuari.getText();
-        String password = contra.getText();
+  
         
-            List<String> usuaris = new ArrayList();
-            ArrayList<Member> membres = club.getMembers();
-            
-            for(Member m : membres) {
-                
-                usuaris.add(m.getLogin());
-            }
-            
-            if(usuaris.remove(user)) {
-                usuariCorrecte.setValue(false);
-                errorUsuari.visibleProperty().setValue(true);
-            } else if(!usuari.getText().isEmpty()){
-                usuariCorrecte.setValue(true);
-                errorUsuari.visibleProperty().setValue(false);
-                        
-            } else{
-                usuariCorrecte.setValue(false);
-                errorUsuari.visibleProperty().setValue(false);
-            }
+        if(user.isEmpty()) {
+            usuariCorrecte.setValue(false);
+            errorUsuari.visibleProperty().setValue(false);
+        }
+        else if(club.existsLogin(user)) { 
+             usuariCorrecte.setValue(false);
+            errorUsuari.visibleProperty().setValue(true);
+        } else {
+             usuariCorrecte.setValue(true);
+             errorUsuari.visibleProperty().setValue(false);
+        }
+        
     }
     
     private void comprovarContra() {
@@ -452,6 +462,9 @@ public class FXMLRegistreController implements Initializable {
         
         Button select = (Button) event.getSource();
         Window ownerWindow = (Window) select.getScene().getWindow();
+        
+        
+       
         File file = fileChooser.showOpenDialog(ownerWindow);
         if(file != null) {
             String url = file.toPath().toString();

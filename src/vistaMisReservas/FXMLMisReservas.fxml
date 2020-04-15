@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="708.0" stylesheets="@../styles/styleList.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vistaMisReservas.FXMLMisReservasController">
+   <top>
+      <VBox fx:id="menu" prefHeight="290.0" prefWidth="708.0" spacing="15.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Reserves">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+            </Label>
+            <HBox maxWidth="1.7976931348623157E308">
+               <VBox.margin>
+                  <Insets left="50.0" />
+               </VBox.margin>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#tornar" prefHeight="59.0" prefWidth="91.0" text="&lt;---" />
+                  <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="LES MEUES RESERVES">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets right="100.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="131.0" prefWidth="708.0" style="-fx-background-color: lightgrey;" VBox.vgrow="ALWAYS">
+               <children>
+                  <AnchorPane prefHeight="162.0" prefWidth="245.0">
+                     <children>
+                        <Label layoutX="3.0" layoutY="17.0" text="Ordernar per:" />
+                        <RadioButton fx:id="anticsPrimer" layoutX="14.0" layoutY="50.0" mnemonicParsing="false" onAction="#ordenar" selected="true" text="Dia reservat (Més antic primer)">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="ordenar" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="postPrimer" layoutX="13.0" layoutY="80.0" mnemonicParsing="false" onAction="#ordenar" text="Dia reservat (Més posteriors primer)" toggleGroup="$ordenar" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="162.0" prefWidth="239.0">
+                     <children>
+                        <Label layoutX="42.0" layoutY="14.0" text="Filtres:" />
+                        <CheckBox fx:id="noPagBut" layoutX="55.0" layoutY="44.0" mnemonicParsing="false" onAction="#noPagades" text="No pagades" />
+                        <CheckBox fx:id="pendJocBut" layoutX="55.0" layoutY="81.0" mnemonicParsing="false" onAction="#actives" text="Reserves pendents de joc" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="20.0">
+               <children>
+                  <Button fx:id="prev" mnemonicParsing="false" onAction="#prevPag" text="&lt;--" />
+                  <Label fx:id="paginaText" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Mostrant pàgina 1 (1-10 reserves)" />
+                  <Button fx:id="next" mnemonicParsing="false" onAction="#nextPag" text="--&gt;" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <right>
+      <VBox alignment="TOP_CENTER" prefHeight="298.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="elimBoto" mnemonicParsing="false" onAction="#eliminar" prefHeight="89.0" prefWidth="122.0" text="Eliminar" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets right="50.0" top="50.0" />
+         </padding>
+      </VBox>
+   </right>
+   <center>
+      <ListView fx:id="listView" prefHeight="200.0" prefWidth="200.0">
+         <BorderPane.margin>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="30.0" />
+         </BorderPane.margin>
+      </ListView>
+   </center>
+</BorderPane>

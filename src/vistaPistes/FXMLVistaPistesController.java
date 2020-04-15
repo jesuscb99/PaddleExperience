@@ -14,22 +14,23 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import DBAcess.ClubDBAccess;
+import funcions.Adapter;
 import java.io.IOException;
-import java.time.DayOfWeek;
+
 import model.*;
 import vistaPistes.files.FilaReserves;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
-import java.time.chrono.Chronology;
-import java.time.temporal.TemporalAccessor;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+
+import javafx.beans.property.BooleanProperty;
+
+import javafx.beans.property.SimpleBooleanProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,22 +39,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.Button;
+
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
+
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
+
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.converter.LocalDateTimeStringConverter;
+
 import paddleexperience.FXMLPaddleController;
 import vistaLogin.FXMLAuxiliarController;
 /**
@@ -80,7 +81,9 @@ public class FXMLVistaPistesController implements Initializable {
     private TableColumn<FilaReserves, Booking> col4;
     @FXML
     private DatePicker selecDia;
-    
+    private EventHandler<MouseEvent>[] events;
+    private EventHandler<MouseEvent> eventExited;
+    private BooleanProperty diaActual;
     FXMLPaddleController main;
     Member member;
     
@@ -93,7 +96,11 @@ public class FXMLVistaPistesController implements Initializable {
     @FXML
     private Label preview;
     @FXML
-    private ProgressIndicator iconoCarga;
+    private Button tornarBoto;
+    @FXML
+    private Button dMenysBot;
+    @FXML
+    private Button dMesBot;
    
     
     @Override
@@ -101,10 +108,23 @@ public class FXMLVistaPistesController implements Initializable {
         
     }
     
+    
+    
    
     public void init(Member m, FXMLPaddleController main) {
         // TODO
-        iconoCarga.setVisible(false);
+        events = (EventHandler<MouseEvent>[]) new EventHandler[4];
+        
+        eventExited = filterExited();
+        
+        tornarBoto.visibleProperty().bind(main.logged);
+        tornarBoto.disableProperty().bind(main.cargant);
+        tableView.disableProperty().bind(main.cargant);
+        selecDia.disableProperty().bind(main.cargant);
+        
+        diaActual = new SimpleBooleanProperty(true);
+        dMenysBot.disableProperty().bind(diaActual);
+   
         member = m;
         this.main = main;
        
@@ -164,6 +184,7 @@ public class FXMLVistaPistesController implements Initializable {
         
         for(int i = 0; i < 8; i++) {
             files[i] = new FilaReserves(hores[i], hores[i+1]);
+            files[i].setLocalDate(selecDia.getValue());
         }
         
         configTaula();
@@ -176,23 +197,52 @@ public class FXMLVistaPistesController implements Initializable {
         col0.setCellValueFactory(
                  new PropertyValueFactory<FilaReserves, String>("hora")
         );
+        
+        col0.setCellFactory((TableColumn<FilaReserves, String> v) -> {
+                TableCell<FilaReserves, String> tableCell = null;
+                
+                tableCell = new TableCell<FilaReserves, String>(){
+                
+                    
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        
+                        aplicarCellCssHores(this);
+                        if(item == null || empty) {
+                            
+                                setText("");
+                           
+                        } else {
+                           setText(item);
+                        }
+                    }
+                    
+                   
+                };
+               
+                 return tableCell;
+        });
        col1.setCellValueFactory(cellData1 -> cellData1.getValue().bookingProperty(1));
         
         col1.setCellFactory((TableColumn<FilaReserves, Booking> v) -> {
                 TableCell<FilaReserves, Booking> tableCell = null;
                 
                 tableCell = new TableCell<FilaReserves, Booking>(){
-                 
+                
                     
                     @Override
                     public void updateItem(Booking item, boolean empty) {
                         super.updateItem(item, empty);
                         
-                        
+                        aplicarCellCss(this, true);
                         if(item == null || empty) {
-                            setText("Lliure");
-                            if(empty) {
+                            if(esPasada(this)) {
+                                 setText("Fora d'horari");
+                            } else if(empty) {
                                 setText("");
+                            } else {
+                                setText("Lliure");
                             }
                         } else {
                            setText(item.getMember().getLogin());
@@ -200,42 +250,11 @@ public class FXMLVistaPistesController implements Initializable {
                     }
                 };
                 
-                tableCell.addEventFilter(MouseEvent.MOUSE_ENTERED, 
-                        new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        
-                        TableCell<FilaReserves, Booking> cell = ( TableCell) event.getSource();
-                        if(!cell.isEmpty()) {
-                            updatePreview(1, cell.getIndex());
-                        }
-                        if(cell.getItem() == null && !cell.isEmpty()) {
-                            //tableView.refresh();
-                            cell.setText("Reservar");
-                            
-                        }
-                        
-                    }
-                            
-                });
-                        
-                /////////////////////////
-                tableCell.addEventFilter(MouseEvent.MOUSE_EXITED, 
-                        new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        
-                        TableCell<FilaReserves, Booking> cell = ( TableCell) event.getSource();
-                       
-                        if(cell.getItem() == null && !cell.isEmpty()) {
-                            //tableView.refresh();
-                            cell.setText("Lliure");
-                            
-                        }
-                        
-                    }
-                            
-                });
+              
+                if(!esPasada(tableCell)) {
+                    tableCell.addEventFilter(MouseEvent.MOUSE_ENTERED, filterEntered(1));
+                    tableCell.addEventFilter(MouseEvent.MOUSE_EXITED, filterExited());    
+                }
                     
                 return tableCell;
                 
@@ -252,11 +271,14 @@ public class FXMLVistaPistesController implements Initializable {
                     public void updateItem(Booking item, boolean empty) {
                         super.updateItem(item, empty);
                         
-                        
+                        aplicarCellCss(this, true);
                         if(item == null || empty) {
-                            setText("Lliure");
-                            if(empty) {
+                            if(esPasada(this)) {
+                                 setText("Fora d'horari");
+                            } else if(empty) {
                                 setText("");
+                            } else {
+                                setText("Lliure");
                             }
                         } else {
                            setText(item.getMember().getLogin());
@@ -264,42 +286,11 @@ public class FXMLVistaPistesController implements Initializable {
                     }
                 };
                 
-                tableCell.addEventFilter(MouseEvent.MOUSE_ENTERED, 
-                        new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        
-                        TableCell<FilaReserves, Booking> cell = ( TableCell) event.getSource();
-                       if(!cell.isEmpty()) {
-                            updatePreview(2, cell.getIndex());
-                        }
-                        if(cell.getItem() == null && !cell.isEmpty()) {
-                            //tableView.refresh();
-                            cell.setText("Reservar");
-                            
-                        }
-                        
-                    }
-                            
-                });
-                        
-                /////////////////////////
-                tableCell.addEventFilter(MouseEvent.MOUSE_EXITED, 
-                        new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        
-                        TableCell<FilaReserves, Booking> cell = ( TableCell) event.getSource();
-                       
-                        if(cell.getItem() == null && !cell.isEmpty()) {
-                            //tableView.refresh();
-                            cell.setText("Lliure");
-                            
-                        }
-                        
-                    }
-                            
-                });
+              
+                if(!esPasada(tableCell)) {
+                    tableCell.addEventFilter(MouseEvent.MOUSE_ENTERED, filterEntered(2));
+                    tableCell.addEventFilter(MouseEvent.MOUSE_EXITED, filterExited());    
+                }
                     
                 return tableCell;
                 
@@ -307,21 +298,25 @@ public class FXMLVistaPistesController implements Initializable {
         
         
         col3.setCellValueFactory(cellData3 -> cellData3.getValue().bookingProperty(3));
+        
         col3.setCellFactory((TableColumn<FilaReserves, Booking> v) -> {
                 TableCell<FilaReserves, Booking> tableCell = null;
                 
                 tableCell = new TableCell<FilaReserves, Booking>(){
-                 
+                
                     
                     @Override
                     public void updateItem(Booking item, boolean empty) {
                         super.updateItem(item, empty);
                         
-                        
+                        aplicarCellCss(this, true);
                         if(item == null || empty) {
-                            setText("Lliure");
-                            if(empty) {
+                            if(esPasada(this)) {
+                                 setText("Fora d'horari");
+                            } else if(empty) {
                                 setText("");
+                            } else {
+                                setText("Lliure");
                             }
                         } else {
                            setText(item.getMember().getLogin());
@@ -329,43 +324,11 @@ public class FXMLVistaPistesController implements Initializable {
                     }
                 };
                 
-                tableCell.addEventFilter(MouseEvent.MOUSE_ENTERED, 
-                        new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        
-                        TableCell<FilaReserves, Booking> cell = ( TableCell) event.getSource();
-                       
-                        if(!cell.isEmpty()) {
-                            updatePreview(3, cell.getIndex());
-                        }
-                        if(cell.getItem() == null && !cell.isEmpty()) {
-                            //tableView.refresh();
-                            cell.setText("Reservar");
-                            
-                        }
-                        
-                    }
-                            
-                });
-                        
-                /////////////////////////
-                tableCell.addEventFilter(MouseEvent.MOUSE_EXITED, 
-                        new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        
-                        TableCell<FilaReserves, Booking> cell = ( TableCell) event.getSource();
-                       
-                        if(cell.getItem() == null && !cell.isEmpty()) {
-                            //tableView.refresh();
-                            cell.setText("Lliure");
-                            
-                        }
-                        
-                    }
-                            
-                });
+              
+                if(!esPasada(tableCell)) {
+                    tableCell.addEventFilter(MouseEvent.MOUSE_ENTERED, filterEntered(3));
+                    tableCell.addEventFilter(MouseEvent.MOUSE_EXITED, filterExited());    
+                }
                     
                 return tableCell;
                 
@@ -376,17 +339,20 @@ public class FXMLVistaPistesController implements Initializable {
                 TableCell<FilaReserves, Booking> tableCell = null;
                 
                 tableCell = new TableCell<FilaReserves, Booking>(){
-                 
+                
                     
                     @Override
                     public void updateItem(Booking item, boolean empty) {
                         super.updateItem(item, empty);
                         
-                        
+                        aplicarCellCss(this, true);
                         if(item == null || empty) {
-                            setText("Lliure");
-                            if(empty) {
+                            if(esPasada(this)) {
+                                 setText("Fora d'horari");
+                            } else if(empty) {
                                 setText("");
+                            } else {
+                                setText("Lliure");
                             }
                         } else {
                            setText(item.getMember().getLogin());
@@ -394,43 +360,14 @@ public class FXMLVistaPistesController implements Initializable {
                     }
                 };
                 
-                tableCell.addEventFilter(MouseEvent.MOUSE_ENTERED, 
-                        new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        
-                        TableCell<FilaReserves, Booking> cell = ( TableCell) event.getSource();
-                       if(!cell.isEmpty()) {
-                            updatePreview(4, cell.getIndex());
-                        }
-                        if(cell.getItem() == null && !cell.isEmpty()) {
-                            //tableView.refresh();
-                            cell.setText("Reservar");
-                            
-                        }
-                        
-                    }
-                            
-                });
-                        
-                /////////////////////////
-                tableCell.addEventFilter(MouseEvent.MOUSE_EXITED, 
-                        new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        
-                        TableCell<FilaReserves, Booking> cell = ( TableCell) event.getSource();
-                       
-                        if(cell.getItem() == null && !cell.isEmpty()) {
-                            //tableView.refresh();
-                            cell.setText("Lliure");
-                            
-                        }
-                        
-                    }
-                            
-                });
-                    
+               
+                if(!esPasada(tableCell)) {
+                    tableCell.addEventFilter(MouseEvent.MOUSE_ENTERED, filterEntered(4));
+                    tableCell.addEventFilter(MouseEvent.MOUSE_EXITED, filterExited());    
+                }
+                
+                
+                
                 return tableCell;
                 
         });
@@ -442,7 +379,123 @@ public class FXMLVistaPistesController implements Initializable {
         ObservableList<TableColumn<FilaReserves, ?>> columnes = tableView.getColumns();
         
     }
- 
+    private boolean esPasada(TableCell<FilaReserves, Booking> cell) {
+        boolean res = false;
+        if(cell.getIndex() < 0 || cell.getIndex() > 7)return false;
+        FilaReserves fila = files[cell.getIndex()];
+        
+        LocalDateTime date = LocalDateTime.of(fila.getLocalDate(), fila.getLocalTime());
+        if(date.isBefore(LocalDateTime.now())) {
+            res = true;
+            
+        }
+        System.out.println(res);
+        return res;
+    }
+     private EventHandler<MouseEvent> filterEntered(int i) {
+         EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
+             @Override
+             public void handle(MouseEvent event) {
+                 TableCell<FilaReserves, Booking> cell = ( TableCell) event.getSource();
+                        if(esPasada(cell)) return;
+                       if(!cell.isEmpty()) {
+                            
+                            updatePreview(i, cell.getIndex());
+                        }
+                        if(cell.getItem() == null && !cell.isEmpty()) {
+                            //tableView.refresh();
+                            cell.setText("Reservar");
+                           
+                            
+                        }
+             }
+             
+         };
+         
+         return handler;
+     }
+     
+     private EventHandler<MouseEvent> filterExited() {
+         EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
+             @Override
+             public void handle(MouseEvent event) {
+                 TableCell<FilaReserves, Booking> cell = ( TableCell) event.getSource();
+                        if(esPasada(cell)) return;
+                        if(cell.getItem() == null && !cell.isEmpty()) {
+                            
+                            cell.setText("Lliure");
+                            
+                        }
+             }
+             
+         };
+         
+         return handler;
+     }
+     
+     public void aplicarCellCssHores(TableCell<FilaReserves, String> tableCell) {
+         int fila = tableCell.getIndex();
+        
+        if(fila < 0 || fila > 7) return;
+        
+        LocalDateTime data = LocalDateTime.of(files[fila].getLocalDate(), files[fila].getLocalTime());
+        
+        if(data.isBefore(LocalDateTime.now())) {
+            tableCell.getStyleClass().set(0, "celda-passada");
+            
+           
+        } else {
+            tableCell.getStyleClass().set(0, "columna-hores");
+        }
+        
+        tableCell.getStyleClass().set(1, "celda-general");
+     }
+    public void aplicarCellCss(TableCell<FilaReserves, Booking> tableCell, boolean par) {
+        
+        Booking b = tableCell.getItem();
+       
+      
+        int fila = tableCell.getIndex();
+        
+        if(fila < 0 || fila > 7) return;
+         LocalDateTime data = LocalDateTime.of(files[fila].getLocalDate(), files[fila].getLocalTime());
+                 
+        if(data.isBefore(LocalDateTime.now())) {
+            tableCell.getStyleClass().set(0, "celda-passada");
+          
+            
+            System.out.println(files[fila].getLocalTime().toString());
+           
+        } else {
+                        
+            if(b != null) {
+                if(member != null) {
+                    if(b.getMember().getLogin().equals(member.getLogin())) {
+                        tableCell.getStyleClass().set(0, "celda-meua");
+                    }
+                    else {
+                         tableCell.getStyleClass().set(0, "celda-ocupada");
+                    }
+                } else {
+                    tableCell.getStyleClass().set(0, "celda-ocupada");
+                }
+                
+               
+            } else {
+                if(par) {
+                    tableCell.getStyleClass().set(0, "celda-lliure-par");
+                } else {
+                    tableCell.getStyleClass().set(0, "celda-lliure-impar");
+                }
+               
+            }
+            
+            
+        }
+      
+        tableCell.getStyleClass().set(1, "celda-general");    
+       
+    }
     private void cargaTaula() {
        
          for(int i = 0; i < 8; i++) {
@@ -450,7 +503,7 @@ public class FXMLVistaPistesController implements Initializable {
        } 
        actualitzarFiles(); 
        dades.clear();
-       
+       tableView.refresh();
        for(int i = 0; i < 8; i++) {
            dades.add(files[i]);
        }    
@@ -485,7 +538,7 @@ public class FXMLVistaPistesController implements Initializable {
           
         }
         
-       
+      
     }
     
     
@@ -524,7 +577,16 @@ public class FXMLVistaPistesController implements Initializable {
     
     @FXML
     private void canviarDia(ActionEvent event) {
+        if(selecDia.getValue().isEqual(LocalDate.now())) {
+            diaActual.setValue(true);
+        } else {
+            diaActual.setValue(false);
+        }
+        
         System.out.println("Dia: " +  selecDia.getValue().toString());
+        for(int i = 0; i < 8; i++) {
+            files[i].setLocalDate(selecDia.getValue());
+        }
         cargaTaula();
        
     }
@@ -549,9 +611,20 @@ public class FXMLVistaPistesController implements Initializable {
         } catch(IOException e) {System.out.print("eeeeeeeeeeeeeeee");}
     }
     
+    private boolean esPasada(Booking b) {
+        if(b == null) return false;
+       if(b.getBookingDate().isBefore(LocalDateTime.now())) {
+           return true;
+       } else {
+           return false;
+       }
+    }
     private boolean esOcupada(int row, int column) {
         FilaReserves act = files[row];
+        LocalDateTime data = LocalDateTime.of(act.getLocalDate(), act.getLocalTime());
+         if(data.isBefore(LocalDateTime.now())) { return true; }
         Booking book = act.bookingProperty(column).getValue();
+        
         return book != null;
     }
     @FXML
@@ -560,6 +633,7 @@ public class FXMLVistaPistesController implements Initializable {
        ObservableList<TablePosition> cells = tableView.getSelectionModel().getSelectedCells();
        TablePosition cellSelected = cells.get(0);
        
+      
        int columna = cellSelected.getColumn();
        int fila = cellSelected.getRow();
        
@@ -606,35 +680,15 @@ public class FXMLVistaPistesController implements Initializable {
            LocalDateTime comprovarPagado = LocalDateTime.of(any, mes, dia - 1, hora, minut);
            
            
-           if(LocalDateTime.now().isAfter(comprovarPagado)) {
+           if(LocalDateTime.now().compareTo(comprovarPagado) >= 0) {
                pagado = true;
            }
-           
+          
            Booking novaReserva = new Booking(cita, date, time, pagado, pista, member);
            
            club.getBookings().add(novaReserva);
 
 
-            Thread guardar = new Thread() {
-                public void run() {
-                    club.saveDB();
-
-                }
-            };
-              Thread acabar = new Thread() {
-                public void run() {
-                    try {
-                         guardar.join();
-                    }catch(InterruptedException e) {}
-                    iconoCarga.setVisible(false);
-
-                }
-            };
-              
-            guardar.start(); 
-            iconoCarga.setVisible(true);
-            acabar.start();
-            
             cargaTaula();
        }
        
@@ -642,25 +696,33 @@ public class FXMLVistaPistesController implements Initializable {
     }
        
     private void updatePreview(int pista, int sessio) {
-        LocalTimeAdapter adapterTime = new LocalTimeAdapter();
-        LocalDateAdapter adapterDate = new LocalDateAdapter();
-        
-        String hores = "";
+       
+        Adapter adapter = new Adapter(selecDia.getValue(), files[sessio].getLocalTime());
+        LocalTimeAdapter adaptertime = new LocalTimeAdapter();
+        String nextHora = "Errror";
         try {
-         hores = adapterTime.marshal(files[sessio].getLocalTime());
-        } catch(Exception e) {}
+            nextHora = adaptertime.marshal(files[sessio].getLocalTime().plusMinutes(90));
+        }catch(Exception e) {}
         
-        DayOfWeek diaSemana = selecDia.getValue().getDayOfWeek();
-        String diaSemanaS = diaSemana.toString();
+        preview.setText(adapter.data + " Hora: " + adapter.hora + " - " + nextHora + ". Pista: " + pista);
         
-        LocalDate dia = selecDia.getValue();
-        String diaS = "";
-        try {
-          diaS = adapterDate.marshal(dia);
-          } catch(Exception e) {}
-        
-        preview.setText(diaSemana + ". " + diaS + " ." + hores + ". Pista: " + pista);
-        
+    }
+
+    @FXML
+    private void tornar(ActionEvent event) {
+        main.entrar(member);
+    }
+
+    @FXML
+    private void diaMenys(ActionEvent event) {
+        selecDia.setValue(selecDia.getValue().minusDays(1));
+        canviarDia(event);
+    }
+
+    @FXML
+    private void diaMes(ActionEvent event) {
+        selecDia.setValue(selecDia.getValue().plusDays(1));
+        canviarDia(event);
     }
        
         

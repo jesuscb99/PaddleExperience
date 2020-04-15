@@ -1,0 +1,48 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14-abr-2020, 18:07:44
+    Author     : 2jesu
+*/
+
+.celda-general {
+    -fx-border-color: #b4b3b5;
+    -fx-background-insets: 1 1 1 1;
+    -fx-alignment: center;
+}
+.celda-ocupada{
+    -fx-background-color: #fc5849;
+}
+
+.celda-lliure-impar{
+    -fx-background-color: #aaf296;
+}
+
+.celda-lliure-par{
+    -fx-background-color: #b1ff9b;
+}
+
+.celda-passada {
+    -fx-background-color: grey;
+    
+}
+
+.celda-meua {
+    -fx-background-color: #ffca2b;
+}
+
+.celda-lliure-par:hover {
+    -fx-background-color: orange;
+}
+
+.celda-lliure-impar:hover {
+    -fx-background-color: orange;
+}
+
+.columna-hores {
+    -fx-background-color: #f1c9ff;
+  
+}

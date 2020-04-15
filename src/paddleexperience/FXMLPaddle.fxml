@@ -6,23 +6,24 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-
 
 <BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="878.0" prefWidth="1139.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paddleexperience.FXMLPaddleController">
    <top>
       <StackPane prefHeight="68.0" prefWidth="1072.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="toolbarLogged" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: lightgrey;" visible="false">
+            <HBox fx:id="toolbarLogged" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: lightgrey;">
                <children>
                   <HBox alignment="CENTER_LEFT" focusTraversable="true" maxWidth="316.0" prefHeight="60.0" prefWidth="316.0" spacing="10.0">
                      <children>
                       <Button mnemonicParsing="false">
                            <graphic>
-                              <ImageView fx:id="fotoPerfil" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="fotoPerfil" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../iconos/login.png" />
+                                 </image></ImageView>
                            </graphic>
                         </Button>
                         <Label fx:id="usuariText" maxWidth="1.7976931348623157E308" prefHeight="21.0" wrapText="true" />
@@ -31,9 +32,9 @@
                         <Insets left="15.0" right="15.0" />
                      </padding>
                   </HBox>
-                  <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                  <HBox alignment="CENTER" spacing="15.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button layoutY="4.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="64.0">
+                        <Button mnemonicParsing="false" onAction="#meuesReserves" prefHeight="58.0" prefWidth="64.0">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -42,7 +43,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button layoutX="90.0" layoutY="4.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="64.0">
+                        <Button mnemonicParsing="false" onAction="#eliminarReserves" prefHeight="58.0" prefWidth="64.0">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -51,7 +52,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button layoutX="177.0" layoutY="5.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="64.0">
+                        <Button mnemonicParsing="false" onAction="#veurePistes" prefHeight="58.0" prefWidth="64.0">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -61,10 +62,13 @@
                            </graphic>
                         </Button>
                      </children>
-                  </AnchorPane>
+                     <padding>
+                        <Insets right="300.0" />
+                     </padding>
+                  </HBox>
                </children>
             </HBox>
-            <ToolBar fx:id="toolbarNoLogged" maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" StackPane.alignment="CENTER">
+            <ToolBar fx:id="toolbarNoLogged" maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" visible="false" StackPane.alignment="CENTER">
               <items>
                 <Button mnemonicParsing="false" onAction="#login" text="Iniciar sessión">
                      <graphic>
