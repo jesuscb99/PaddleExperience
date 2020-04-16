@@ -7,7 +7,18 @@ and open the template in the editor.
     Created on : 14-abr-2020, 18:07:44
     Author     : 2jesu
 */
+.button {
+    -fx-background-radius: 100;
+}
 
+.button-dia {
+    -fx-border-radius: 100;
+    -fx-border-color: #b6bab7;
+    -fx-background-color: #2eea54;
+}
+.button-dia:hover {
+    -fx-background-color: #43ad58;
+}
 .celda-general {
     -fx-border-color: #b4b3b5;
     -fx-background-insets: 1 1 1 1;

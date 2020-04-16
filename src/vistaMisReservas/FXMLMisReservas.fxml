@@ -30,7 +30,7 @@
                   <Button mnemonicParsing="false" onAction="#tornar" prefHeight="59.0" prefWidth="91.0" text="&lt;---" />
                   <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label text="LES MEUES RESERVES">
+                        <Label styleClass="titol" text="LES MEUES RESERVES">
                            <font>
                               <Font size="30.0" />
                            </font>
@@ -66,9 +66,9 @@
             </HBox>
             <HBox alignment="CENTER" spacing="20.0">
                <children>
-                  <Button fx:id="prev" mnemonicParsing="false" onAction="#prevPag" text="&lt;--" />
-                  <Label fx:id="paginaText" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Mostrant pàgina 1 (1-10 reserves)" />
-                  <Button fx:id="next" mnemonicParsing="false" onAction="#nextPag" text="--&gt;" />
+                  <Button fx:id="prev" mnemonicParsing="false" onAction="#prevPag" prefHeight="45.0" prefWidth="45.0" styleClass="button-pag" text="&lt;--" />
+                  <Label fx:id="paginaText" alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="label-pags" text="Mostrant pàgina 1 (1-10 reserves)" />
+                  <Button fx:id="next" mnemonicParsing="false" onAction="#nextPag" prefHeight="45.0" prefWidth="45.0" styleClass="button-pag" text="--&gt;" />
                </children>
             </HBox>
          </children>

@@ -7,6 +7,9 @@ and open the template in the editor.
     Created on : 14-abr-2020, 22:09:28
     Author     : 2jesu
 */
+.label {
+    -fx-font-family: 'Calibri';
+}
 .celda-general {
     -fx-border-color: #d8d8d6;
     -fx-background-insets: 0.5 0.5 0.5 0.5;
@@ -52,4 +55,23 @@ and open the template in the editor.
 .celda-nopagada-impar:selected{
     -fx-background-color: #eda509;
     -fx-text-fill: white;
+}
+
+.button-pag {
+    -fx-border-radius: 100;
+    -fx-border-color: #b6bab7;
+    -fx-background-color: #2eea54;
+    -fx-background-radius: 20;
+}
+.button-pag:hover {
+    -fx-background-color: #43ad58;
+}
+
+.label-pags {
+    -fx-font-size: 15pt;
+}
+
+.titol {
+    -fx-font-family: 'Nirmala';
+    -fx-font-size: 30pt;
 }
