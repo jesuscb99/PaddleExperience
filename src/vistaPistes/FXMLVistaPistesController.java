@@ -147,12 +147,12 @@ public class FXMLVistaPistesController implements Initializable {
                 
         tableView.getSelectionModel().setCellSelectionEnabled(true);
         tableView.heightProperty().addListener((object, oldValue, newValue) -> {
-         tableView.setFixedCellSize((tableView.getHeight() - 60) / 8.0);
+         tableView.setFixedCellSize((tableView.getHeight() - 60) / 9.0);
          
         });
        tableView.widthProperty().addListener((object, oldValue, newValue) -> {
            
-            System.out.println(newValue);
+          
             col0.setMaxWidth(tableView.getWidth() * 0.1);
             col0.setMinWidth(tableView.getWidth() * 0.1);
             
@@ -178,11 +178,11 @@ public class FXMLVistaPistesController implements Initializable {
         
         
         
-        hores = new String[]{"09:00", "10:30", "12:00", "13:30", "15:00", "16:30", "18:00", "19:30", "21:00"};
+        hores = new String[]{"09:00", "10:30", "12:00", "13:30", "15:00", "16:30", "18:00", "19:30", "21:00", "22:30"};
        
-        files = new FilaReserves[8];
+        files = new FilaReserves[9];
         
-        for(int i = 0; i < 8; i++) {
+        for(int i = 0; i < 9; i++) {
             files[i] = new FilaReserves(hores[i], hores[i+1]);
             files[i].setLocalDate(selecDia.getValue());
         }
@@ -235,7 +235,7 @@ public class FXMLVistaPistesController implements Initializable {
                     public void updateItem(Booking item, boolean empty) {
                         super.updateItem(item, empty);
                         
-                        aplicarCellCss(this, true);
+                        aplicarCellCss(this, false);
                         if(item == null || empty) {
                             if(esPasada(this)) {
                                  setText("Fora d'horari");
@@ -309,7 +309,7 @@ public class FXMLVistaPistesController implements Initializable {
                     public void updateItem(Booking item, boolean empty) {
                         super.updateItem(item, empty);
                         
-                        aplicarCellCss(this, true);
+                        aplicarCellCss(this, false);
                         if(item == null || empty) {
                             if(esPasada(this)) {
                                  setText("Fora d'horari");
@@ -381,7 +381,7 @@ public class FXMLVistaPistesController implements Initializable {
     }
     private boolean esPasada(TableCell<FilaReserves, Booking> cell) {
         boolean res = false;
-        if(cell.getIndex() < 0 || cell.getIndex() > 7)return false;
+        if(cell.getIndex() < 0 || cell.getIndex() > 8)return false;
         FilaReserves fila = files[cell.getIndex()];
         
         LocalDateTime date = LocalDateTime.of(fila.getLocalDate(), fila.getLocalTime());
@@ -389,7 +389,7 @@ public class FXMLVistaPistesController implements Initializable {
             res = true;
             
         }
-        System.out.println(res);
+       
         return res;
     }
      private EventHandler<MouseEvent> filterEntered(int i) {
@@ -436,7 +436,7 @@ public class FXMLVistaPistesController implements Initializable {
      public void aplicarCellCssHores(TableCell<FilaReserves, String> tableCell) {
          int fila = tableCell.getIndex();
         
-        if(fila < 0 || fila > 7) return;
+        if(fila < 0 || fila > 8) return;
         
         LocalDateTime data = LocalDateTime.of(files[fila].getLocalDate(), files[fila].getLocalTime());
         
@@ -457,14 +457,14 @@ public class FXMLVistaPistesController implements Initializable {
       
         int fila = tableCell.getIndex();
         
-        if(fila < 0 || fila > 7) return;
+        if(fila < 0 || fila > 8) return;
          LocalDateTime data = LocalDateTime.of(files[fila].getLocalDate(), files[fila].getLocalTime());
                  
         if(data.isBefore(LocalDateTime.now())) {
             tableCell.getStyleClass().set(0, "celda-passada");
           
             
-            System.out.println(files[fila].getLocalTime().toString());
+          
            
         } else {
                         
@@ -498,13 +498,13 @@ public class FXMLVistaPistesController implements Initializable {
     }
     private void cargaTaula() {
        
-         for(int i = 0; i < 8; i++) {
+         for(int i = 0; i < 9; i++) {
            files[i].reset();
        } 
        actualitzarFiles(); 
        dades.clear();
        tableView.refresh();
-       for(int i = 0; i < 8; i++) {
+       for(int i = 0; i < 9; i++) {
            dades.add(files[i]);
        }    
        
@@ -523,7 +523,7 @@ public class FXMLVistaPistesController implements Initializable {
           
           int length = bookings.size();
           for(int j = 0; j < length; j++) { 
-              System.out.println(length);
+             
               try {
                  Booking act = bookings.get(j);
                 DateTimeAdapter adapterDate = new DateTimeAdapter();
@@ -569,6 +569,9 @@ public class FXMLVistaPistesController implements Initializable {
                 case "19:30":
                     files[7].setBooking(pista, b);   
                     break;
+                case "21:00":
+                    files[8].setBooking(pista, b);   
+                    break;
                 default:
                  }
         
@@ -583,8 +586,8 @@ public class FXMLVistaPistesController implements Initializable {
             diaActual.setValue(false);
         }
         
-        System.out.println("Dia: " +  selecDia.getValue().toString());
-        for(int i = 0; i < 8; i++) {
+        
+        for(int i = 0; i < 9; i++) {
             files[i].setLocalDate(selecDia.getValue());
         }
         cargaTaula();
@@ -631,6 +634,7 @@ public class FXMLVistaPistesController implements Initializable {
     private void selecReserva(MouseEvent event) throws InterruptedException {
         
        ObservableList<TablePosition> cells = tableView.getSelectionModel().getSelectedCells();
+       if(cells.size() == 0) return;
        TablePosition cellSelected = cells.get(0);
        
       
@@ -672,7 +676,8 @@ public class FXMLVistaPistesController implements Initializable {
            int hora = time.getHour();
            int minut = time.getMinute();
            
-           LocalDateTime cita = LocalDateTime.of(any, mes, dia, hora, minut);
+          // LocalDateTime cita = LocalDateTime.of(any, mes, dia, hora, minut);
+         
            Court pista = new Court("Pista " + columna);
            
            boolean pagado = false;
@@ -684,7 +689,7 @@ public class FXMLVistaPistesController implements Initializable {
                pagado = true;
            }
           
-           Booking novaReserva = new Booking(cita, date, time, pagado, pista, member);
+           Booking novaReserva = new Booking(LocalDateTime.now(), date, time, pagado, pista, member);
            
            club.getBookings().add(novaReserva);
 

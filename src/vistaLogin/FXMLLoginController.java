@@ -63,7 +63,7 @@ public class FXMLLoginController implements Initializable {
                 
                 usuaris.add(m.getLogin());
             }
-            System.out.println(usuaris.toString());
+           
            if(usuaris.remove(user)) {
                errorLabel.setText("La contrasenya introduida es incorrecta.");
            } else {

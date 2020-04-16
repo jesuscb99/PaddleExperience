@@ -126,7 +126,7 @@ public class FXMLPrincipalController implements Initializable {
     private void updateFree() {
         LocalTime ara = LocalTime.now();
         
-        if(ara.compareTo(LocalTime.of(19, 30)) >= 0) {
+        if(ara.compareTo(LocalTime.of(21, 00)) >= 0) {
             reservFree.setText("No queden pistes disponibles per hui");
             return;
         }
@@ -151,7 +151,7 @@ public class FXMLPrincipalController implements Initializable {
         
         while(i <= 4) {
             if(pistaLliure("Pista " + i, proxSessio)) {
-                pistesLliures += "  Pista " + i + "\n";
+                pistesLliures += "  Pista " + i ;
                 
             }
             i++;
@@ -161,7 +161,7 @@ public class FXMLPrincipalController implements Initializable {
             reservFree.setText("No queden pistes disponibles per hui");
         } else {
             LocalTime fin = proxSessio.plusMinutes(90);
-            System.out.println(fin.toString());
+            
             reservFree.setText("Hora: " + proxSessio.toString() + "-" + fin + "\n" + pistesLliures);
         }
        
@@ -184,7 +184,7 @@ public class FXMLPrincipalController implements Initializable {
         return res;
     }
     private LocalTime[] getHoraris() {
-        LocalTime[] horaris = new LocalTime[8];
+        LocalTime[] horaris = new LocalTime[9];
         
         int hora = 9;
         int minut = 0;

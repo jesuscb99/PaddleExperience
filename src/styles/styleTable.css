@@ -11,10 +11,14 @@ and open the template in the editor.
     -fx-background-radius: 100;
 }
 
+.label {
+    -fx-font-family: 'Calibri';
+}
 .button-dia {
     -fx-border-radius: 100;
     -fx-border-color: #b6bab7;
-    -fx-background-color: #2eea54;
+    -fx-text-fill: white;
+    -fx-background-color: #a8a7a3;
 }
 .button-dia:hover {
     -fx-background-color: #43ad58;
@@ -56,4 +60,31 @@ and open the template in the editor.
 .columna-hores {
     -fx-background-color: #f1c9ff;
   
+}
+
+.back {
+    -fx-border-radius: 100;
+    -fx-border-color: black;
+    -fx-background-radius: 100;
+    -fx-background-color: #3ccde0;
+}
+
+.back:hover {
+    -fx-background-color: #2ea9ba;
+}
+
+.titol {
+    -fx-background-color: #fccf3c;
+    -fx-font-family: 'Nirmala';
+    -fx-font-size: 30pt;
+}
+
+.vbox {
+    -fx-background-color: white;
+}
+
+.preview {
+    -fx-font-size: 14pt;
+    -fx-text-fill: #8518a3;
+    -fx-font-weight: bold;
 }

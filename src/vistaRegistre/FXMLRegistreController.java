@@ -232,7 +232,7 @@ public class FXMLRegistreController implements Initializable {
         this.main = main;
         totCorrecte = new SimpleBooleanProperty(false);
         this.modal = modal;
-        iconoCarga.setVisible(false);
+        
         usuariCorrecte = new SimpleBooleanProperty(false);
         contraCorrecte = new SimpleBooleanProperty(false);
         nomCorrecte = new SimpleBooleanProperty(false);

@@ -23,7 +23,7 @@ and open the template in the editor.
 }
 .button {
     -fx-background-color: #88ef3e;
-    -fx-background-radius: 50;
+    -fx-background-radius: 20;
 }
 .button:hover {
     -fx-text-fill: white;
@@ -43,6 +43,10 @@ and open the template in the editor.
     -fx-text-fill: red;
 }
 
+.header {
+    -fx-background-color: #8c8c8c;
+    -fx-text-fill: white;
+}
 @font-face {
   
    src: url('Roboto-Regular.ttf');

@@ -86,12 +86,13 @@ public class FXMLPaddleController implements Initializable {
             BorderPane root = (BorderPane) miCargador.load();
             FXMLVistaPistesController controlador = miCargador.<FXMLVistaPistesController>getController();
             controlador.init(member, this);
-             System.out.println("yeeee");
+             
              borderPane.setCenter(root);
              
          } catch(IOException e) {
              System.err.println(e.toString());
          }
+         
          
     }    
 
@@ -102,8 +103,8 @@ public class FXMLPaddleController implements Initializable {
        
        
        for(Booking b : bookings) {
-           LocalDateTime date = b.getBookingDate();
-           
+          // LocalDateTime date = b.getBookingDate();
+           LocalDateTime date = LocalDateTime.of(b.getMadeForDay(), b.getFromTime());
            LocalDateTime unDiaAbans = date.minusDays(1);
           
            if(now.isAfter(unDiaAbans)) {
@@ -157,7 +158,7 @@ public class FXMLPaddleController implements Initializable {
          }
     }
     public void updatePerfil(Member mem) {
-        System.out.println("Estic diiiins");
+       
         member = mem;
         fotoPerfil.setImage(member.getImage());
         usuariText.setText("Usuari: " + member.getLogin());
@@ -181,7 +182,7 @@ public class FXMLPaddleController implements Initializable {
             VBox root = (VBox) miCargador.load();
             FXMLPrincipalController controlador = miCargador.<FXMLPrincipalController>getController();
              controlador.init(member, this);
-             System.out.println("yeeee");
+           
              borderPane.setCenter(root);
              
          } catch(IOException e) {
@@ -245,5 +246,10 @@ public class FXMLPaddleController implements Initializable {
     @FXML
     private void veurePistes(ActionEvent event) {
         reservarPista();
+    }
+
+    @FXML
+    private void home(ActionEvent event) {
+        entrar(member);
     }
 }

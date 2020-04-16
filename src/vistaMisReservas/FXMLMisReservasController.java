@@ -23,6 +23,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -149,7 +150,7 @@ public class FXMLMisReservasController implements Initializable {
         
         prev.disableProperty().bind(Bindings.equal(pag, 1));
         
-       elimBoto.disableProperty().bind(selecPagat);
+       elimBoto.disableProperty().bind(Bindings.or(selecPagat,Bindings.equal(listView.getSelectionModel().selectedIndexProperty(), -1)));
        
       listView.getSelectionModel().selectedItemProperty().addListener((object, oldv, newv) -> {
         
@@ -183,7 +184,7 @@ public class FXMLMisReservasController implements Initializable {
                     Adapter adapter = new Adapter(item.getMadeForDay(), item.getFromTime());
                     String pagat = "";
                     LocalTime fin = item.getFromTime().plusMinutes(90);
-                    
+                   
                     if(item.getPaid()) {
                         
                         pagat = "Sí";
@@ -191,26 +192,41 @@ public class FXMLMisReservasController implements Initializable {
                         pagat = "No";
                     }
                     
-                    //String liniaDalt = String.format("%{0,15} {1,15} {2,15} {3,15} \n", "DIA", "HORA", "PISTA", "PAGAT");
-                   // String liniaBaix = String.format("%{0,15} {1,15} {2,15} {3,15} \n", adapter.data, item.getFromTime().toString(), item.getCourt().getName(), pagat);
-                    setText("DIA: " + adapter.data + "\nHORA: " + item.getFromTime().toString() + " - " + fin + "\nPISTA: " + item.getCourt().getName() + "\nPAGAT: " +  pagat);
-                    //setText(liniaDalt + liniaBaix);
+                    String jugat = "";
+                    
+                    if(LocalDateTime.of(item.getMadeForDay(),item.getFromTime()).isBefore(LocalDateTime.now())) {
+                        jugat += "Sí";
+                    } else {
+                        jugat += "No";
+                    }
+                    
+                    String data = adapter.data;
+                  // String l1 =  "       "+"DIA" + "       "+  "HORA" + "       "+"PISTA" + "       "+"PAGAT"+ "       "+ "JUGAT\n";
+                  // String l2 =  "       "+adapter.data  + "       "+ item.getFromTime().toString() + "       "+ item.getCourt().getName() + "       "+ pagat+ "        \n";
+                   String l1 = String.format("%-32s%44s%32s%32s%32s\n", "DIA", "HORA", "PISTA", "PAGAT", "JUGAT  ");
+                   String l2 = String.format("%-32s%32s%32s%32s%32s\n",  data, item.getFromTime().toString() + " - " + fin, item.getCourt().getName(), pagat, jugat);
+                 
+                 // String l1 = String.format("{0,32}{1,32}{2,32}{3,32}{4,32}\n","DIA", "HORA", "PISTA", "PAGAT", "JUGAT");
+                 // String l2 = String.format("{0,32} + {1,32} + {2,32} + {3,32} + {4,32}\n",adapter.data, item.getFromTime().toString() + " - " + fin, item.getCourt().getName(), pagat, jugat);
+                    //setText("DIA: " + adapter.data + "\nHORA: " + item.getFromTime().toString() + " - " + fin + "\nPISTA: " + item.getCourt().getName() + "\nPAGAT: " +  pagat);
+                    setText(l1 + l2);
                 }
             }
         }
-        
+         listView.setFixedCellSize(120);
          listView.setCellFactory(c -> new BookingListCell());
          actualitzarListView();
     }
     
     private void aplicarCss(ListCell<Booking> cell) {
         int index = cell.getIndex();
-        System.out.println(index);
+     
         if(index >= 0) {
-            System.out.println("DEBUUUUUUUUUUUUUG");
+           
             Booking b = cell.getItem();
             LocalDateTime now = LocalDateTime.now();
-            if(b.getBookingDate().isBefore(now)) {
+            LocalDateTime date = LocalDateTime.of(b.getMadeForDay(),b.getFromTime());
+            if(date.isBefore(now)) {
                 cell.getStyleClass().set(0, "celda-jugada");
             } else if(b.getPaid()) {
                 if(index % 2 == 0) {
@@ -250,6 +266,7 @@ public class FXMLMisReservasController implements Initializable {
     }
     
     private void actualitzarListView() {
+        
         List<Booking> actual = null;
         
         if(ordenar.getSelectedToggle() == anticsPrimer) {
@@ -291,14 +308,22 @@ public class FXMLMisReservasController implements Initializable {
             }
             enPantalla.add(misdades);
         }
-        System.out.println(finalPag);
+       
         finalPag.setValue(maxPag == pag.getValue());
         updateTexPagina();
+      
         dades = FXCollections.observableArrayList(enPantalla.get(0));
         listView.setItems(dades);
+        System.out.println(listView.getItems().size());
         
+        
+       
+            
+       
     }
-
+     
+    
+   
     @FXML
     private void tornar(ActionEvent event) {
         main.entrar(member);

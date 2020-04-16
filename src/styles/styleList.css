@@ -11,8 +11,9 @@ and open the template in the editor.
     -fx-font-family: 'Calibri';
 }
 .celda-general {
-    -fx-border-color: #d8d8d6;
+    -fx-font-size: 14pt;
     -fx-background-insets: 0.5 0.5 0.5 0.5;
+    -fx-font-weight: bold;
 }
 
 .celda-pagada-par{
@@ -24,7 +25,8 @@ and open the template in the editor.
 }
 .celda-jugada {
     -fx-background-color: #b6b3b7;
-    
+     -fx-border-color: #d8d8d6;
+      -fx-text-fill: white;
 }
 
 .celda-nopagada-par {
@@ -60,7 +62,8 @@ and open the template in the editor.
 .button-pag {
     -fx-border-radius: 100;
     -fx-border-color: #b6bab7;
-    -fx-background-color: #2eea54;
+    -fx-text-fill: white;
+    -fx-background-color: #a8a7a3;
     -fx-background-radius: 20;
 }
 .button-pag:hover {
@@ -68,10 +71,74 @@ and open the template in the editor.
 }
 
 .label-pags {
+   
     -fx-font-size: 15pt;
 }
 
 .titol {
+    -fx-background-color: #fccf3c;
     -fx-font-family: 'Nirmala';
     -fx-font-size: 30pt;
+}
+
+.opcions {
+    -fx-background-color: #9facea;
+}
+
+.hbox-opcions {
+    -fx-background-color: #adbaff;
+}
+
+.eliminar {
+    -fx-border-color: black;
+    -fx-background-color: #fc4737;
+    -fx-text-fill: white;
+}
+
+.eliminar:hover{
+    -fx-background-color: #f72613;
+}
+
+.opcions-titol {
+    -fx-font-size: 15pt;
+    -fx-font-weight: bold;
+}
+
+.back {
+    -fx-border-radius: 100;
+    -fx-border-color: black;
+    -fx-background-radius: 100;
+    -fx-background-color: #3ccde0;
+}
+.back:hover {
+    -fx-background-color: #2ea9ba;
+}
+
+.header {
+    -fx-background-color: #8c8c8c;
+    -fx-text-fill: white;
+}
+
+.llegenda {
+    -fx-border-color: black;
+}
+.l1 {
+    -fx-background-color: #b6b3b7;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 14pt;
+}
+
+.l2 {
+     -fx-background-color: #42932c;
+     -fx-font-weight: bold;
+     -fx-text-fill: white;
+     -fx-font-size: 14pt;
+}
+
+.l3 {
+     -fx-background-color: #eda509;
+     -fx-font-weight: bold;
+     -fx-text-fill: white;
+     -fx-font-size: 14pt;
 }

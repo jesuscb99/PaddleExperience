@@ -1,0 +1,70 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16-abr-2020, 13:54:43
+    Author     : 2jesu
+*/
+
+
+
+.buttons-funcions {
+     -fx-background-radius: 100;
+    -fx-border-radius: 100;
+    -fx-border-color: black;
+}
+.buttons-funcions:hover {
+    -fx-background-color: white;
+}
+.pistes {
+    -fx-background-color: #9fc48d;
+}
+
+.eliminar {
+    -fx-background-color: #e85353;
+}
+
+.misreservas {
+    -fx-background-color: #9fd5e0;
+}
+
+.home {
+    -fx-background-color: #f7a93b;
+}
+
+.inicisessio {
+    -fx-background-color: white;
+}
+
+.usuari-box {
+    -fx-background-color: #95edc4;
+}
+
+.usuari {
+    -fx-font-size: 15pt;
+    -fx-font-family: 'Calibri';
+    -fx-font-weight: bold;
+}
+
+.funcions-box {
+    -fx-background-color: #0f7899;
+}
+
+.nologged-buttons {
+    -fx-font-family: 'Calibri';
+   
+    -fx-font-size: 15pt;
+    -fx-background-radius: 10;
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+}
+.nologged-buttons:hover {
+    -fx-border-radius: 10;
+     -fx-border-color: red;
+}
+.toolbar {
+    -fx-background-color: #0f7899;
+    
+}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -10,23 +11,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="878.0" prefWidth="1139.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paddleexperience.FXMLPaddleController">
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="878.0" prefWidth="1139.0" stylesheets="@../styles/styleMain.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="paddleexperience.FXMLPaddleController">
    <top>
-      <StackPane prefHeight="68.0" prefWidth="1072.0" BorderPane.alignment="CENTER">
+      <StackPane prefHeight="90.0" prefWidth="1139.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="toolbarLogged" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: lightgrey;">
+            <HBox fx:id="toolbarLogged" prefHeight="116.0" prefWidth="1139.0" styleClass="funcions-box" visible="false">
                <children>
-                  <HBox alignment="CENTER_LEFT" focusTraversable="true" maxWidth="316.0" prefHeight="60.0" prefWidth="316.0" spacing="10.0">
+                  <HBox alignment="CENTER_LEFT" focusTraversable="true" maxWidth="316.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="316.0" spacing="10.0" styleClass="usuari-box">
                      <children>
-                      <Button mnemonicParsing="false">
+                      <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="75.0">
                            <graphic>
-                              <ImageView fx:id="fotoPerfil" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="fotoPerfil" fitHeight="50.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../iconos/login.png" />
                                  </image></ImageView>
                            </graphic>
+                           <styleClass>
+                              <String fx:value="inicisessio" />
+                              <String fx:value="buttons-funcions" />
+                           </styleClass>
                         </Button>
-                        <Label fx:id="usuariText" maxWidth="1.7976931348623157E308" prefHeight="21.0" wrapText="true" />
+                        <Label fx:id="usuariText" maxWidth="1.7976931348623157E308" prefHeight="21.0" styleClass="usuari" wrapText="true" />
                      </children>
                      <padding>
                         <Insets left="15.0" right="15.0" />
@@ -34,7 +39,20 @@
                   </HBox>
                   <HBox alignment="CENTER" spacing="15.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#meuesReserves" prefHeight="58.0" prefWidth="64.0">
+                        <Button mnemonicParsing="false" onAction="#home" prefHeight="75.0" prefWidth="75.0">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../iconos/home.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <styleClass>
+                              <String fx:value="home" />
+                              <String fx:value="buttons-funcions" />
+                           </styleClass>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#meuesReserves" prefHeight="75.0" prefWidth="75.0">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -42,8 +60,12 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <styleClass>
+                              <String fx:value="misreservas" />
+                              <String fx:value="buttons-funcions" />
+                           </styleClass>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#eliminarReserves" prefHeight="58.0" prefWidth="64.0">
+                        <Button mnemonicParsing="false" onAction="#eliminarReserves" prefHeight="75.0" prefWidth="75.0">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -51,8 +73,12 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <styleClass>
+                              <String fx:value="eliminar" />
+                              <String fx:value="buttons-funcions" />
+                           </styleClass>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#veurePistes" prefHeight="58.0" prefWidth="64.0">
+                        <Button mnemonicParsing="false" onAction="#veurePistes" prefHeight="75.0" prefWidth="75.0">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -60,6 +86,10 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <styleClass>
+                              <String fx:value="pistes" />
+                              <String fx:value="buttons-funcions" />
+                           </styleClass>
                         </Button>
                      </children>
                      <padding>
@@ -67,10 +97,13 @@
                      </padding>
                   </HBox>
                </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </HBox>
-            <ToolBar fx:id="toolbarNoLogged" maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" visible="false" StackPane.alignment="CENTER">
+            <ToolBar fx:id="toolbarNoLogged" maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="toolbar" StackPane.alignment="CENTER">
               <items>
-                <Button mnemonicParsing="false" onAction="#login" text="Iniciar sessión">
+                <Button mnemonicParsing="false" onAction="#login" styleClass="nologged-buttons" text="Iniciar sessión">
                      <graphic>
                         <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -79,7 +112,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#reg" text="Registrar-se">
+                  <Button mnemonicParsing="false" onAction="#reg" styleClass="nologged-buttons" text="Registrar-se">
                      <graphic>
                         <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -88,7 +121,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#pistes" text="Veure pistes">
+                  <Button mnemonicParsing="false" onAction="#pistes" styleClass="nologged-buttons" text="Veure pistes">
                      <graphic>
                         <ImageView fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                            <image>

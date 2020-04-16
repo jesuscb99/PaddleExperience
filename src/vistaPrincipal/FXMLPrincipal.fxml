@@ -88,7 +88,7 @@
                      <padding>
                         <Insets left="15.0" />
                      </padding></Label>
-                  <Label fx:id="reservFree" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No hi ha pistes lliures">
+                  <Label fx:id="reservFree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No hi ha pistes lliures" VBox.vgrow="ALWAYS">
                      <padding>
                         <Insets left="15.0" />
                      </padding></Label>
@@ -115,7 +115,7 @@
                      <padding>
                         <Insets left="15.0" />
                      </padding></Label>
-                  <Label fx:id="reservNoPag" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No hi ha reserves pendents">
+                  <Label fx:id="reservNoPag" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No hi ha reserves pendents" wrapText="true" VBox.vgrow="ALWAYS">
                      <padding>
                         <Insets left="15.0" />
                      </padding></Label>

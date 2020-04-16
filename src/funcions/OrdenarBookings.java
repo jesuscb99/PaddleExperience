@@ -15,6 +15,7 @@ import model.Booking;
  * @author 2jesu
  */
 public class OrdenarBookings {
+    
     public static List<Booking> getActives(List<Booking> bookings) {
        
          List<Booking> aux = new ArrayList<>();
@@ -22,7 +23,8 @@ public class OrdenarBookings {
          
          
          for(Booking b : bookings) {
-             if(b.getBookingDate().compareTo(now) > 0) {
+             LocalDateTime date = LocalDateTime.of(b.getMadeForDay(), b.getFromTime());
+             if(date.compareTo(now) > 0) {
                  aux.add(b);
              }
             
