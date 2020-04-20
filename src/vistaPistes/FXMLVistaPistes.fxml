@@ -24,9 +24,9 @@
                         <Insets />
                      </HBox.margin>
                      <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgBack" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../Descargas/kisspng-computer-icons-encapsulated-postscript-arrow-downl-return-icon-5b139278b60999.5307435215280093367456.png" />
+                              <Image url="@../iconos/tornar.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -62,7 +62,7 @@
                <children>
                   <TableView fx:id="tableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#selecReserva" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                     <columns>
-                        <TableColumn fx:id="col0" prefWidth="75.0" text="Hora" />
+                        <TableColumn fx:id="col0" minWidth="100.0" prefWidth="100.0" text="Hora" />
                         <TableColumn fx:id="col1" maxWidth="1.7976931348623157E308" prefWidth="118.0" text="Pista 1" />
                         <TableColumn fx:id="col2" maxWidth="1.7976931348623157E308" prefWidth="110.0" text="Pista 2" />
                       <TableColumn fx:id="col3" maxWidth="1.7976931348623157E308" prefWidth="108.0" text="Pista 3" />

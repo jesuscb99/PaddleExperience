@@ -81,6 +81,10 @@ public class FXMLMisReservasController implements Initializable {
     private BooleanProperty pendentsDeJoc;
     private BooleanProperty anticsFirst;
     private BooleanProperty selecPagat;
+    private BooleanProperty ultPrimer;
+    
+    private int mode;
+    private int filtre;
     
     private BooleanProperty finalPag;
     
@@ -92,6 +96,8 @@ public class FXMLMisReservasController implements Initializable {
     private Label paginaText;
     @FXML
     private VBox menu;
+    @FXML
+    private RadioButton ultReservBut;
     @Override
     
     
@@ -101,8 +107,35 @@ public class FXMLMisReservasController implements Initializable {
      
     }    
     
-    public void setConfig(boolean postPrimer_, boolean noPagades, boolean actives) {
-        if(postPrimer_) {
+    public void setConfig(int mode, int filtre) {
+        this.mode = mode;
+        this.filtre = filtre;
+        
+        switch(mode) {
+            case 0:
+                ultReservBut.selectedProperty().setValue(true);
+                break;
+            case 1:
+                anticsPrimer.selectedProperty().setValue(true);
+                break;
+            case 2:
+                postPrimer.selectedProperty().setValue(true);
+                break;
+            default:       
+        }
+        
+        switch(filtre) {
+            case 0:
+                noPagBut.selectedProperty().setValue(true);
+                break;
+            case 1: 
+                pendJocBut.selectedProperty().setValue(true);
+                break;
+            default:
+                
+        }
+        
+        /*if(postPrimer_) {
             postPrimer.selectedProperty().setValue(true);
         }
         
@@ -112,7 +145,7 @@ public class FXMLMisReservasController implements Initializable {
         }   
         if(actives) {
             pendJocBut.selectedProperty().setValue(true);
-        }
+        }*/
         
     }
     public void init(FXMLPaddleController main, Member member) {
@@ -124,8 +157,8 @@ public class FXMLMisReservasController implements Initializable {
         dades = FXCollections.observableArrayList(totesReserves);
         listView.setItems(dades);
         
-        
-        
+        noPagBut.disableProperty().bindBidirectional(pendJocBut.selectedProperty());
+        pendJocBut.disableProperty().bindBidirectional(noPagBut.selectedProperty());
         
         
         
@@ -135,13 +168,16 @@ public class FXMLMisReservasController implements Initializable {
         selecPagat = new SimpleBooleanProperty(true);
         finalPag = new SimpleBooleanProperty();
         pag = new SimpleIntegerProperty(0);
-        
+        ultPrimer = new SimpleBooleanProperty(false);
+                
         anticsFirst.bind(anticsPrimer.selectedProperty());
         noPagades.bind(noPagBut.selectedProperty());
         pendentsDeJoc.bind(pendJocBut.selectedProperty());
+        ultPrimer.bind(ultReservBut.selectedProperty());
         
-        listView.disableProperty().bind(main.cargant);
-        menu.disableProperty().bind(main.cargant);
+       
+        
+     
         maxPag = (totesReserves.size() / 10) + 1;
         
         
@@ -179,6 +215,7 @@ public class FXMLMisReservasController implements Initializable {
                 
                 if(item == null || empty) {
                     setText(null);
+                    aplicarCss(this);
                 } else {
                     aplicarCss(this);
                     Adapter adapter = new Adapter(item.getMadeForDay(), item.getFromTime());
@@ -219,6 +256,10 @@ public class FXMLMisReservasController implements Initializable {
     }
     
     private void aplicarCss(ListCell<Booking> cell) {
+        if(cell.isEmpty() || cell.getItem() == null) {
+            cell.getStyleClass().set(0, "celda-buida");
+            return;
+        }
         int index = cell.getIndex();
      
         if(index >= 0) {
@@ -269,17 +310,42 @@ public class FXMLMisReservasController implements Initializable {
         
         List<Booking> actual = null;
         
-        if(ordenar.getSelectedToggle() == anticsPrimer) {
-            actual = totesReserves;
-           
+        
+        if(ultPrimer.getValue()) {
             
+            actual = OrdenarBookings.getUltimesReserves(totesReserves);
+        }else if(anticsFirst.getValue()) {
+            actual = totesReserves;  
         } else {
-            actual = OrdenarBookings.getPosteriorsPrimer((ArrayList<Booking>) totesReserves);
-            
-            
+            actual = OrdenarBookings.getPosteriorsPrimer((ArrayList<Booking>) totesReserves);    
         }
         
-        if(noPagades.getValue()) {
+        
+       /* switch(mode) {
+            case 0: 
+                actual = OrdenarBookings.getUltimesReserves(totesReserves);
+                break;
+            case 1:
+                actual = totesReserves;
+                break;
+            case 2:
+                actual = OrdenarBookings.getPosteriorsPrimer(totesReserves);
+                break;
+            default:
+                actual = totesReserves;
+        }
+        
+        switch(filtre) {
+            case 0:
+                actual = OrdenarBookings.getNoPagades(actual);
+                break;
+            case 1:
+                actual = OrdenarBookings.getActives(actual);
+                break;
+            default:
+                actual = OrdenarBookings.getActives(actual);
+        }*/
+       if(noPagades.getValue()) {
             actual = OrdenarBookings.getNoPagades(actual);
             
            
@@ -314,7 +380,7 @@ public class FXMLMisReservasController implements Initializable {
       
         dades = FXCollections.observableArrayList(enPantalla.get(0));
         listView.setItems(dades);
-        System.out.println(listView.getItems().size());
+        
         
         
        

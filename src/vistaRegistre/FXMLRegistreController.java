@@ -26,20 +26,20 @@ import javafx.event.EventHandler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
+
 import javafx.scene.input.KeyCode;
 
 
 
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -52,7 +52,15 @@ import vistaPistes.FXMLVistaPistesController;
  * @author almagar3
  */
 public class FXMLRegistreController implements Initializable {
-
+    private boolean consume = false;
+    private BooleanProperty totCorrecte;
+    ClubDBAccess club;
+    private FXMLPaddleController main;
+    private Member nuevo;
+   
+    private List<Node> focusList;
+    private int length;
+  
     @FXML
     private Label errorUsuari;
     @FXML
@@ -63,8 +71,7 @@ public class FXMLRegistreController implements Initializable {
     private TextField cognoms;
     @FXML
     private TextField usuari;
-    @FXML
-    private TextField contra;
+  
     @FXML
     private TextField numCard;
     @FXML
@@ -76,11 +83,7 @@ public class FXMLRegistreController implements Initializable {
     @FXML
     private Button regButton;
     
-   private boolean consume = false;
-   private BooleanProperty totCorrecte;
-   ClubDBAccess club;
-   private FXMLPaddleController main;
-   private Member nuevo;
+   
    
    private FXMLVistaPistesController pistaController;
    private FileChooser fileChooser;
@@ -107,7 +110,11 @@ public class FXMLRegistreController implements Initializable {
  
     private Image imatge;
     @FXML
-    private ProgressIndicator iconoCarga;
+    private PasswordField contra1;
+    @FXML
+    private PasswordField contra2;
+    @FXML
+    private Label errorPassConfirm;
 
     
     @Override
@@ -131,24 +138,7 @@ public class FXMLRegistreController implements Initializable {
               );
       
       
-      ////////////
-      contra.addEventFilter(KeyEvent.KEY_PRESSED,
-              new EventHandler<KeyEvent>() {
-                    @Override
-                    public void handle(KeyEvent event) {
-                        KeyCode tecla = event.getCode();
-                        
-                        if(!tecla.isLetterKey()) {
-                            if(!tecla.equals(KeyCode.SPACE) && !tecla.equals(KeyCode.SHIFT)) {
-                                 consume = true;
-                            }
-                        }
-                      
-                    }
-                  
-              }
-              );
-      /////////
+   
       usuari.addEventFilter(KeyEvent.KEY_PRESSED,
               new EventHandler<KeyEvent>() {
                     @Override
@@ -221,6 +211,21 @@ public class FXMLRegistreController implements Initializable {
      }
     public void init(FXMLPaddleController main, boolean modal) {
         
+         this.main = main;
+     
+        focusList = new ArrayList<>();
+        focusList.add(nom);
+        focusList.add(cognoms);
+        focusList.add(usuari);
+        focusList.add(contra1);
+        focusList.add(contra2);
+        focusList.add(telf);
+        focusList.add(numCard);
+        focusList.add(svc);
+        focusList.add(regButton);
+        
+        length = focusList.size();
+        
         fileChooser = new FileChooser();
        
         ////////StackOverFlow
@@ -253,11 +258,15 @@ public class FXMLRegistreController implements Initializable {
         }
         );
         
-        contra.textProperty().addListener((a, b, c) -> {
+        contra1.textProperty().addListener((a, b, c) -> {
                 comprovarContra();
         }
         );
        
+        contra2.textProperty().addListener((a, b, c) -> {
+                comprovarContra();
+        }
+        );
        ChangeListener<String> listenerNom = new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -287,8 +296,7 @@ public class FXMLRegistreController implements Initializable {
          */
         totCorrecte.bind(Bindings.and(nomCorrecte, Bindings.and(usuariCorrecte, Bindings.and(telfCorrecte,
                 Bindings.and(numCardCorrecte, Bindings.and(svcCorrecte, contraCorrecte))))));
-        
-        regButton.disableProperty().bind(Bindings.or(main.cargant, Bindings.not(totCorrecte)));
+       
         
         club = DBAcess.ClubDBAccess.getSingletonClubDBAccess();
     }
@@ -298,11 +306,11 @@ public class FXMLRegistreController implements Initializable {
         
         if(imgCorrecte.getValue()) {
             actual = new Member(nom.getText(), cognoms.getText(), telf.getText(), 
-                usuari.getText(), contra.getText(), numCard.getText(), svc.getText(), imatge);
+                usuari.getText(), contra1.getText(), numCard.getText(), svc.getText(), imatge);
         } else {
-            
-                 actual = new Member(nom.getText(), cognoms.getText(), telf.getText(), 
-                usuari.getText(), contra.getText(), numCard.getText(), svc.getText(), null);
+                Image img = new Image("/iconos/login.png");
+                actual = new Member(nom.getText(), cognoms.getText(), telf.getText(), 
+                usuari.getText(), contra1.getText(), numCard.getText(), svc.getText(), img);
           
            
         }
@@ -364,7 +372,7 @@ public class FXMLRegistreController implements Initializable {
     
     private void comprovarContra() {
        
-        String pass = contra.getText();
+        String pass = contra1.getText();
         if(pass.length() < 6) {
             if(pass.isEmpty()) {
                 errorPassword.visibleProperty().setValue(false);
@@ -374,8 +382,16 @@ public class FXMLRegistreController implements Initializable {
             
             contraCorrecte.setValue(false);
         } else {
-            contraCorrecte.setValue(true);
-            errorPassword.visibleProperty().setValue(false);
+            if(contra1.getText().equals(contra2.getText())) {
+                contraCorrecte.setValue(true);
+                errorPassword.visibleProperty().setValue(false);
+                errorPassConfirm.visibleProperty().setValue(false);
+            } else {
+                contraCorrecte.setValue(false);
+                errorPassConfirm.visibleProperty().setValue(true);
+                errorPassword.visibleProperty().setValue(false);
+            }
+            
         }
     }
     
@@ -486,6 +502,35 @@ public class FXMLRegistreController implements Initializable {
       
         
     }
-
+    
+    @FXML
+    private void seguent(KeyEvent event) {
+        KeyCode tecla = event.getCode();
+        
+      
+        
+        if(tecla.equals(KeyCode.TAB)) {
+            int i = 0;
+            
+            while(!focusList.get(i).isFocused() && i < length - 1) {
+       
+                i++;
+            }
+            
+         
+            if(i < length - 1) {
+                focusList.get(i + 1).requestFocus();
+            }
+            event.consume();
+        }
+        
+        if(tecla.equals(KeyCode.ENTER)) {
+            if(totCorrecte.getValue()) {
+                try {
+                     completarReg(null);
+                } catch(Exception e) {}
+            }
+        }
+    }
     
 }

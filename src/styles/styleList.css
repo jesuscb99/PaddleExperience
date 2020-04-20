@@ -10,6 +10,9 @@ and open the template in the editor.
 .label {
     -fx-font-family: 'Calibri';
 }
+.celda-buida {
+    -fx-background-color: white;
+}
 .celda-general {
     -fx-font-size: 14pt;
     -fx-background-insets: 0.5 0.5 0.5 0.5;
@@ -31,11 +34,11 @@ and open the template in the editor.
 
 .celda-nopagada-par {
     
-    -fx-background-color: #ffd85b;
+    -fx-background-color: #fcd67e;
 }
 
 .celda-nopagada-impar {
-   -fx-background-color:  #ffd242;
+   -fx-background-color:  #fcd26f;
 }
 
 

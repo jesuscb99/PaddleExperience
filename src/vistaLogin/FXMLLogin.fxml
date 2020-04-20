@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vistaLogin.FXMLLoginController">
+<VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" stylesheets="@../styles/styleLogin.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vistaLogin.FXMLLoginController">
    <children>
       <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="636.0" prefWidth="1102.0">
          <children>
@@ -33,7 +33,7 @@
                   <Font size="27.0" />
                </font>
             </Label>
-            <Button layoutX="406.0" layoutY="403.0" mnemonicParsing="false" onAction="#login" prefHeight="58.0" prefWidth="130.0" text="Iniciar sessió">
+            <Button fx:id="loginBot" layoutX="406.0" layoutY="403.0" mnemonicParsing="false" onAction="#login" onKeyPressed="#enterPressed" prefHeight="58.0" prefWidth="130.0" styleClass="login" text="Iniciar sessió">
                <font>
                   <Font size="17.0" />
                </font>
@@ -44,7 +44,7 @@
                   <Font size="40.0" />
                </font>
             </Label>
-            <Button layoutX="817.0" layoutY="334.0" mnemonicParsing="false" onAction="#register" prefHeight="58.0" prefWidth="136.0" text="Registrar-se">
+            <Button layoutX="817.0" layoutY="334.0" mnemonicParsing="false" onAction="#register" prefHeight="58.0" prefWidth="136.0" styleClass="register" text="Registrar-se">
                <font>
                   <Font size="19.0" />
                </font>

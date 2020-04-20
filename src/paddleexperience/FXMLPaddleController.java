@@ -15,28 +15,17 @@ import DBAcess.ClubDBAccess;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import model.Booking;
 import model.Member;
 import vistaLogin.FXMLLoginController;
@@ -65,7 +54,7 @@ public class FXMLPaddleController implements Initializable {
     private Label usuariText;
     private Member member;
     
-    public BooleanProperty cargant;
+ 
     
    
     
@@ -73,11 +62,10 @@ public class FXMLPaddleController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logged = new SimpleBooleanProperty(false);
-       cargant = new SimpleBooleanProperty(false);
+      
         toolbarLogged.visibleProperty().bind(logged);
          toolbarNoLogged.visibleProperty().bind(Bindings.not(logged));
-         toolbarLogged.disableProperty().bind(cargant);
-         toolbarNoLogged.disableProperty().bind(cargant);
+       
          FXMLLoader miCargador = new FXMLLoader(getClass().getResource("/vistaPistes/FXMLVistaPistes.fxml"));
          try {
              
@@ -166,7 +154,7 @@ public class FXMLPaddleController implements Initializable {
         updatePaid();
     }
     public void entrar(Member mem) {
-        System.out.println("Estic diiiins");
+      
         member = mem;
         Image imatge = member.getImage();
         
@@ -213,7 +201,7 @@ public class FXMLPaddleController implements Initializable {
          }
     }
     
-    public void misReservas(boolean postPrimer, boolean noPag, boolean actives) {
+    public void misReservas(int mode, int filtre) {
         FXMLLoader miCargador = new FXMLLoader(getClass().getResource("/vistaMisReservas/FXMLMisReservas.fxml"));
          try {
              
@@ -222,7 +210,7 @@ public class FXMLPaddleController implements Initializable {
             BorderPane root = (BorderPane) miCargador.load();
             FXMLMisReservasController controlador = miCargador.<FXMLMisReservasController>getController();
            
-            controlador.setConfig(postPrimer, noPag, actives);
+            controlador.setConfig(mode, filtre);
             controlador.init(this, member);
             
             borderPane.setCenter(root);
@@ -235,12 +223,12 @@ public class FXMLPaddleController implements Initializable {
 
     @FXML
     private void meuesReserves(ActionEvent event) {
-        misReservas(false, false, false);
+        misReservas(1, 1);
     }
 
     @FXML
     private void eliminarReserves(ActionEvent event) {
-        misReservas(false, true, false);
+        misReservas(0, 0);
     }
 
     @FXML

@@ -22,6 +22,9 @@ and open the template in the editor.
     -fx-background-color: #ff8d60;
 }
 
+.apartat4 {
+    -fx-background-color: #f7b418;
+}
 .contingut {
     -fx-font-size: 18pt;
    -fx-font-family: 'Calibri'; 
@@ -48,6 +51,9 @@ and open the template in the editor.
     -fx-background-color: #ffd632;
 }
 
+.button4 {
+     -fx-background-color: #f7b418;
+}
 .vbox {
     -fx-background-radius: 10;
    -fx-background-color: #e8e8e8; 

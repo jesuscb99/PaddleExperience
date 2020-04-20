@@ -14,8 +14,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import paddleexperience.FXMLPaddleController;
 import DBAcess.ClubDBAccess;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import model.Member;
@@ -26,6 +29,10 @@ import model.Member;
  */
 public class FXMLLoginController implements Initializable {
 
+    private List<Node> focusList;
+    private int length;
+  
+    
     @FXML
     private TextField usuari;
     @FXML
@@ -33,6 +40,8 @@ public class FXMLLoginController implements Initializable {
     private FXMLPaddleController main;
     @FXML
     private TextField pass;
+    @FXML
+    private Button loginBot;
     
     /**
      * Initializes the controller class.
@@ -44,9 +53,17 @@ public class FXMLLoginController implements Initializable {
 
     public void init(FXMLPaddleController main) {
         this.main = main;
+     focusList = new ArrayList<>();
+        focusList.add(usuari);
+        focusList.add(pass);
+        focusList.add(loginBot);
+                
+        length = focusList.size();
+        
         
     }
     
+    @FXML
     private boolean login() {
         errorLabel.setText("");
         String user = usuari.getText();
@@ -76,7 +93,6 @@ public class FXMLLoginController implements Initializable {
             return true;
         }
     }
-    @FXML
     private void login(ActionEvent event) {
         login();
     }
@@ -89,10 +105,33 @@ public class FXMLLoginController implements Initializable {
 
     @FXML
     private void enterPressed(KeyEvent event) {
+        seguent(event);
         KeyCode tecla = event.getCode();
         
         if(tecla.equals(KeyCode.ENTER)) {
             login();
+        }
+    }
+
+   
+    private void seguent(KeyEvent event) {
+        KeyCode tecla = event.getCode();
+        
+      
+        
+        if(tecla.equals(KeyCode.TAB)) {
+            int i = 0;
+            
+            while(!focusList.get(i).isFocused() && i < length - 1) {
+       
+                i++;
+            }
+            
+         
+            if(i < length - 1) {
+                focusList.get(i + 1).requestFocus();
+            }
+            event.consume();
         }
     }
     

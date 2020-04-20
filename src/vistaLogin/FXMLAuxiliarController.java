@@ -15,13 +15,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Member;
 import paddleexperience.FXMLPaddleController;
@@ -47,6 +49,10 @@ public class FXMLAuxiliarController implements Initializable {
     @FXML
     private PasswordField contra;
     
+    private List<Node> focusList;
+    private int length;
+    @FXML
+    private Button loginBot;
     
     /**
      * Initializes the controller class.
@@ -61,9 +67,15 @@ public class FXMLAuxiliarController implements Initializable {
         this.main = main;
         this.pistaController = pistaController;
         this.stage = stage;
+        
+        focusList = new ArrayList<>();
+        focusList.add(usuari);
+        focusList.add(contra);
+        focusList.add(loginBot);
+                
+        length = focusList.size();
     }
-    @FXML
-    private void login(ActionEvent event) {
+    private void login() {
         errLabel.setText("");
         
         String user = usuari.getText();
@@ -97,6 +109,11 @@ public class FXMLAuxiliarController implements Initializable {
            
         }
     }
+    
+    @FXML
+    private void login(ActionEvent event) {
+        login();
+    }
 
     @FXML
     private void register(ActionEvent event) {
@@ -113,7 +130,37 @@ public class FXMLAuxiliarController implements Initializable {
            
             
                
-        } catch(IOException e) {System.out.print("eeeeeeeeeeeeeeee");}
+        } catch(IOException e) {System.err.println("Error");}
     }
     
+    
+    private void seguent(KeyEvent event) {
+        KeyCode tecla = event.getCode();
+        
+      
+        
+        if(tecla.equals(KeyCode.TAB)) {
+            int i = 0;
+            
+            while(!focusList.get(i).isFocused() && i < length - 1) {
+       
+                i++;
+            }
+            
+         
+            if(i < length - 1) {
+                focusList.get(i + 1).requestFocus();
+            }
+            event.consume();
+        }
+    }
+
+    @FXML
+    private void keyPressed(KeyEvent event) {
+        seguent(event);
+        KeyCode tecla = event.getCode();
+        if(tecla.equals(KeyCode.ENTER)) {
+            login();
+        }
+    }
 }

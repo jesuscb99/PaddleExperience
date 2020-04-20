@@ -88,3 +88,15 @@ and open the template in the editor.
     -fx-text-fill: #8518a3;
     -fx-font-weight: bold;
 }
+
+.table-view .column-header {
+    
+    -fx-background-color: #969696;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: #dedfe0;
+    -fx-text-fill: #484a4c;
+    -fx-font-size: 15pt;
+  
+}

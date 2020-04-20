@@ -61,13 +61,18 @@
                      <padding>
                         <Insets left="15.0" />
                      </padding></Label>
-                  <Label fx:id="proxReserv" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No tens reserves">
-                     <padding>
-                        <Insets left="15.0" />
-                     </padding></Label>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="proxReserv" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No tens reserves" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER_RIGHT">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#reserves" prefHeight="49.0" prefWidth="125.0" styleClass="button1" text="Meues reserves" />
+                        <Button mnemonicParsing="false" onAction="#reserves" prefHeight="46.0" prefWidth="156.0" styleClass="button1" text="Próximes reserves" />
                      </children>
                      <VBox.margin>
                         <Insets right="15.0" />
@@ -88,10 +93,15 @@
                      <padding>
                         <Insets left="15.0" />
                      </padding></Label>
-                  <Label fx:id="reservFree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No hi ha pistes lliures" VBox.vgrow="ALWAYS">
-                     <padding>
-                        <Insets left="15.0" />
-                     </padding></Label>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="reservFree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No hi ha pistes lliures" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER_RIGHT">
                      <children>
                         <Button mnemonicParsing="false" onAction="#vorePistes" prefHeight="49.0" prefWidth="125.0" styleClass="button3" text="Veure pistes" />
@@ -105,7 +115,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
             </VBox>
-            <VBox spacing="10.0" styleClass="vbox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <VBox prefHeight="254.0" prefWidth="521.0" spacing="10.0" styleClass="vbox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
                   <Label maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="375.0" text="Pròxima reserva pendent de pagament:">
                      <styleClass>
@@ -115,10 +125,15 @@
                      <padding>
                         <Insets left="15.0" />
                      </padding></Label>
-                  <Label fx:id="reservNoPag" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="104.0" prefWidth="271.0" styleClass="contingut" text="No hi ha reserves pendents" wrapText="true" VBox.vgrow="ALWAYS">
-                     <padding>
-                        <Insets left="15.0" />
-                     </padding></Label>
+                  <HBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="reservNoPag" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="102.0" prefWidth="521.0" styleClass="contingut" text="No hi ha reserves pendents" wrapText="true" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER_RIGHT">
                      <children>
                         <Button mnemonicParsing="false" onAction="#elimReserves" prefHeight="49.0" prefWidth="149.0" styleClass="button2" text="Eliminar reserves" />
@@ -130,6 +145,39 @@
                </children>
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+            </VBox>
+            <VBox prefHeight="254.0" prefWidth="521.0" spacing="10.0" styleClass="vbox" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Label maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="375.0" text="Última reserva realitzada">
+                     <styleClass>
+                        <String fx:value="apartat4" />
+                        <String fx:value="apartats" />
+                     </styleClass>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </Label>
+                  <HBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="ultimaReserva" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="102.0" prefWidth="521.0" styleClass="contingut" text="No hi ha reserves pendents" wrapText="true" HBox.hgrow="ALWAYS">
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#ultimesReserves" prefHeight="49.0" prefWidth="149.0" styleClass="button4" text="Últimes reserves" />
+                     </children>
+                     <VBox.margin>
+                        <Insets right="15.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <GridPane.margin>
+                  <Insets right="10.0" top="10.0" />
                </GridPane.margin>
             </VBox>
          </children>

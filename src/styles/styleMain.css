@@ -40,6 +40,7 @@ and open the template in the editor.
 
 .usuari-box {
     -fx-background-color: #95edc4;
+    -fx-background-radius: 10;
 }
 
 .usuari {

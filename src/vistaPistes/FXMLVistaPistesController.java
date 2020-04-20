@@ -49,9 +49,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -81,8 +82,7 @@ public class FXMLVistaPistesController implements Initializable {
     private TableColumn<FilaReserves, Booking> col4;
     @FXML
     private DatePicker selecDia;
-    private EventHandler<MouseEvent>[] events;
-    private EventHandler<MouseEvent> eventExited;
+  
     private BooleanProperty diaActual;
     FXMLPaddleController main;
     Member member;
@@ -101,6 +101,8 @@ public class FXMLVistaPistesController implements Initializable {
     private Button dMenysBot;
     @FXML
     private Button dMesBot;
+    @FXML
+    private ImageView imgBack;
    
     
     @Override
@@ -113,14 +115,11 @@ public class FXMLVistaPistesController implements Initializable {
    
     public void init(Member m, FXMLPaddleController main) {
         // TODO
-        events = (EventHandler<MouseEvent>[]) new EventHandler[4];
-        
-        eventExited = filterExited();
+       
         
         tornarBoto.visibleProperty().bind(main.logged);
-        tornarBoto.disableProperty().bind(main.cargant);
-        tableView.disableProperty().bind(main.cargant);
-        selecDia.disableProperty().bind(main.cargant);
+        imgBack.visibleProperty().bind(main.logged);
+     
         
         diaActual = new SimpleBooleanProperty(true);
         dMenysBot.disableProperty().bind(diaActual);
@@ -598,7 +597,7 @@ public class FXMLVistaPistesController implements Initializable {
         FXMLLoader miCargador = new FXMLLoader(getClass().getResource("/vistaLogin/FXMLAuxiliar.fxml"));
         
         try {
-            AnchorPane root = (AnchorPane) miCargador.load();
+            VBox root = (VBox) miCargador.load();
             FXMLAuxiliarController controlador = miCargador.<FXMLAuxiliarController>getController();
           
           //init
@@ -611,7 +610,7 @@ public class FXMLVistaPistesController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             
             stage.showAndWait();       
-        } catch(IOException e) {System.out.print("eeeeeeeeeeeeeeee");}
+        } catch(IOException e) {System.err.println("Error");}
     }
     
     private boolean esPasada(Booking b) {
@@ -649,7 +648,7 @@ public class FXMLVistaPistesController implements Initializable {
            }
        }
            
-       
+       main.updatePerfil(member);
        
        FilaReserves filaReserva = files[fila]; 
        String horaS = filaReserva.horaProperty().getValue();

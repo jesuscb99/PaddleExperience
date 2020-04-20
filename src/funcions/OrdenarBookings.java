@@ -15,7 +15,33 @@ import model.Booking;
  * @author 2jesu
  */
 public class OrdenarBookings {
-    
+    public static List<Booking> getUltimesReserves(List<Booking> bookings) {
+        
+         List<Booking> copia = new ArrayList<>();
+         List<Booking> aux = new ArrayList<>();
+         LocalDateTime now = LocalDateTime.now(); 
+         
+        for(Booking b : bookings) {
+            copia.add(b);
+        }
+        
+        while(copia.size() > 0) {
+            Booking max = copia.get(0);
+            int pos = 0;
+            for(int i = 0; i < copia.size(); i++) {
+                if(copia.get(i).getBookingDate().isAfter(max.getBookingDate())) {
+                    max = copia.get(i);
+                    pos = i;
+                }
+            }
+            
+            aux.add(max);
+            copia.remove(pos);
+            
+        }
+        
+        return aux;
+    }
     public static List<Booking> getActives(List<Booking> bookings) {
        
          List<Booking> aux = new ArrayList<>();

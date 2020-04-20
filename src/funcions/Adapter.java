@@ -27,11 +27,10 @@ public class Adapter {
         
         
         any = date.getYear();
-        System.out.print(any);
         mes = date.getMonth().getValue();
-        System.out.print(mes);
+      
         dia = date.getDayOfMonth();
-        System.out.print(dia);
+      
         diaSemana = date.getDayOfWeek().toString();
         
         switch(diaSemana) {

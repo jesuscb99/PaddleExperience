@@ -37,7 +37,7 @@ public class PaddleExperience extends Application {
                     alert.setHeaderText("Saving data in DB");
                     alert.setContentText("La aplicació està guardant la informació en la base de dades. Pot tardar uns minuts.");
                     alert.show();
-                     //club.saveDB();
+                    club.saveDB();
                   
                    });
         

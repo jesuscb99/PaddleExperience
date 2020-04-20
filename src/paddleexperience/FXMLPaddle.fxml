@@ -15,7 +15,7 @@
    <top>
       <StackPane prefHeight="90.0" prefWidth="1139.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="toolbarLogged" prefHeight="116.0" prefWidth="1139.0" styleClass="funcions-box" visible="false">
+            <HBox fx:id="toolbarLogged" prefHeight="116.0" prefWidth="1139.0" styleClass="funcions-box">
                <children>
                   <HBox alignment="CENTER_LEFT" focusTraversable="true" maxWidth="316.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="316.0" spacing="10.0" styleClass="usuari-box">
                      <children>
@@ -36,6 +36,9 @@
                      <padding>
                         <Insets left="15.0" right="15.0" />
                      </padding>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                     </HBox.margin>
                   </HBox>
                   <HBox alignment="CENTER" spacing="15.0" HBox.hgrow="ALWAYS">
                      <children>
@@ -101,7 +104,7 @@
                   <Insets />
                </opaqueInsets>
             </HBox>
-            <ToolBar fx:id="toolbarNoLogged" maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="toolbar" StackPane.alignment="CENTER">
+            <ToolBar fx:id="toolbarNoLogged" maxHeight="1.7976931348623157E308" prefHeight="40.0" prefWidth="200.0" styleClass="toolbar" visible="false" StackPane.alignment="CENTER">
               <items>
                 <Button mnemonicParsing="false" onAction="#login" styleClass="nologged-buttons" text="Iniciar sessión">
                      <graphic>

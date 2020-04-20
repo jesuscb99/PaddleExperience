@@ -50,6 +50,8 @@ public class FXMLPrincipalController implements Initializable {
      * Initializes the controller class.
      */
     ClubDBAccess club;
+    @FXML
+    private Label ultimaReserva;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -66,6 +68,7 @@ public class FXMLPrincipalController implements Initializable {
         updateProxReserva();
         updateReservNoPag();
         updateFree();
+        updateUltimaReserva();
     }
     
     private void  updateProxReserva() {
@@ -91,6 +94,39 @@ public class FXMLPrincipalController implements Initializable {
         proxReserv.setText("Dia: " + adapter.data + "\nHora: " + adapter.hora + "\n"+ proxima.getCourt().getName() + "\nPagat: " + pagatS);
     }
     
+    private void updateUltimaReserva() {
+        ultimaReserva.setText("No has fet cap reserva");
+        ArrayList<Booking> bookings = club.getUserBookings(member.getLogin());
+        
+        List<Booking> ultimes = OrdenarBookings.getUltimesReserves(bookings);
+        
+        if(ultimes.size() == 0) {
+            return;
+        }
+        
+        Booking proxima = ultimes.get(0);
+        Adapter adapter = new Adapter(proxima.getMadeForDay(), proxima.getFromTime());
+        
+     
+        
+        if(LocalDateTime.now().isAfter(LocalDateTime.of(proxima.getMadeForDay(), proxima.getFromTime()))) {
+            
+           ultimaReserva.setText("Dia: " + adapter.data + "\nHora: " + adapter.hora + "\n"+ proxima.getCourt().getName() + "\nJugat: " + "Sí");
+           
+        } else {
+            boolean pagat = proxima.getPaid();
+        String pagatS = "";
+        if(pagat) {
+            pagatS = "Si";
+        } else {
+            pagatS = "No";
+        }
+        
+        ultimaReserva.setText("Dia: " + adapter.data + "\nHora: " + adapter.hora + "\n"+ proxima.getCourt().getName() + "\nPagat: " + pagatS + "\nJugat: No");
+        
+        }
+         
+    }
      private void  updateReservNoPag() {
          
        
@@ -205,11 +241,16 @@ public class FXMLPrincipalController implements Initializable {
 
     @FXML
     private void reserves(ActionEvent event) {
-        main.misReservas(false, false, true);
+        main.misReservas(1, 1);
     }
 
     @FXML
     private void elimReserves(ActionEvent event) {
-        main.misReservas(false, true, false);
+        main.misReservas(0, 0);
+    }
+
+    @FXML
+    private void ultimesReserves(ActionEvent event) {
+        main.misReservas(0, 2);
     }
 }
